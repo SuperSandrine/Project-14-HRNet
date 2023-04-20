@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRouteError } from 'react-router-dom';
-import RootLayout from '../../components/Layout/RootLayout';
+import RootLayout from '../../Layout/RootLayout';
 
 const Error = () => {
   const error = useRouteError();
