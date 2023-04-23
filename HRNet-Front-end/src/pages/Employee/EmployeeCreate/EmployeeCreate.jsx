@@ -3,7 +3,6 @@
 import { Box, Paper } from '@mui/material';
 import EmployeeForm from '../../../components/EmployeeForm/EmployeeForm';
 
-// mettre en place des validations de formulaires ou se renseigner sur les bonne praitques
 const EmployeeCreate = () => {
   return (
     <>
