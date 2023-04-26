@@ -5,30 +5,10 @@ import EmployeeForm from '../../../components/EmployeeForm/EmployeeForm';
 
 const EmployeeCreate = () => {
   return (
-    <>
+    <div>
       <h2>Create Employee</h2>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          '& > :not(style)': {
-            m: 1,
-            width: 4 / 5,
-          },
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            paddingLeft: 2,
-            paddingRight: 2,
-          }}
-        >
-          <EmployeeForm />
-        </Paper>
-      </Box>
-    </>
+      <EmployeeForm />
+    </div>
     // <div>
     //   <h1>Create Employee page</h1>
 

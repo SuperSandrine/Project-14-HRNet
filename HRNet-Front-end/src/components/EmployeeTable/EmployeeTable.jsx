@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { useCallback, useEffect, useState } from 'react';
 import {
-  Autocomplete,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
   Box,
   InputAdornment,
   TablePagination,
@@ -15,8 +14,6 @@ import {
   TextField,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { SearchBar1, SearchBar2 } from './EmployeeSearchBar';
-import SearchBar from '@mkyy/mui-search-bar';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -61,9 +58,8 @@ function stableSort(array, comparator) {
 }
 
 const DEFAULT_ORDER = 'asc';
-//const DEFAULT_ORDER_BY = 'calories';
 const DEFAULT_ORDER_BY = 'firstName';
-const DEFAULT_ROWS_PER_PAGE = 2;
+const DEFAULT_ROWS_PER_PAGE = 5;
 
 //_________________________________
 //_________________________________
@@ -73,7 +69,6 @@ const EnhancedTableHead = (props) => {
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
-  //{ title: 'First Name', data: 'firstName', id: 'AZ' },
   console.log("qu'est ce que orderby", orderBy);
   console.log("qu'est ce que order", order);
 
@@ -123,19 +118,19 @@ const EnhancedTableHead = (props) => {
 //___________________________________
 //___________________________________
 const EmployeeTable = (props) => {
-  const [order, setOrder] = React.useState(DEFAULT_ORDER);
-  const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
-  const [page, setPage] = React.useState(0);
-  const [visibleRows, setVisibleRows] = React.useState(null);
-  const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE); // un chiffre qui indique le nb de rows/page
-  const [paddingHeight, setPaddingHeight] = React.useState(0);
-  const [searched, setSearched] = React.useState('');
+  const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
+  const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY); // by default: firstname
+  const [page, setPage] = useState(0);
+  const [visibleRows, setVisibleRows] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE); // un chiffre qui indique le nb de rows/page
+  const [paddingHeight, setPaddingHeight] = useState(0);
+  const [searched, setSearched] = useState('');
 
   console.log('voici les props de employee table', props.data);
   const { data } = props;
   const rows = data;
 
-  React.useEffect(() => {
+  useEffect(() => {
     let rowsOnMount = stableSort(
       rows,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
@@ -150,13 +145,12 @@ const EmployeeTable = (props) => {
   }, []);
   //console.log('les rows visibles', visibleRows);
 
-  const handleRequestSort = React.useCallback(
+  const handleRequestSort = useCallback(
     (event, newOrderBy) => {
       const isAsc = orderBy === newOrderBy && order === 'asc';
       const toggledOrder = isAsc ? 'desc' : 'asc';
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
-
       const sortedRows = stableSort(
         rows,
         getComparator(toggledOrder, newOrderBy)
@@ -165,17 +159,12 @@ const EmployeeTable = (props) => {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       );
-
       setVisibleRows(updatedRows);
     },
     [order, orderBy, page, rowsPerPage]
   );
 
-  // const handleChangePage = () => {
-  //   console.log('je dois changer de page');
-  // };
-
-  const handleChangePage = React.useCallback(
+  const handleChangePage = useCallback(
     (event, newPage) => {
       setPage(newPage);
 
@@ -184,40 +173,30 @@ const EmployeeTable = (props) => {
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
       );
-
       setVisibleRows(updatedRows);
-
       // Avoid a layout jump when reaching the last page with empty rows.
       const numEmptyRows =
         newPage > 0
           ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
           : 0;
-
       const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
-      //      console.log('ligne vide', numEmptyRows);
     },
     [order, orderBy, rowsPerPage]
   );
-  // const handleChangeRowsPerPage = () => {
-  //   console.log('je dois changer le nombre de rangs par page');
-  // };
-  const handleChangeRowsPerPage = React.useCallback(
+
+  const handleChangeRowsPerPage = useCallback(
     (event) => {
       const updatedRowsPerPage = parseInt(event.target.value, 10);
       setRowsPerPage(updatedRowsPerPage);
       //console.log('quaije', updatedRowsPerPage); // renvoi le nombre sélectionner en nombre
-
       setPage(0);
-
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
       const updatedRows = sortedRows.slice(
         0 * updatedRowsPerPage,
         0 * updatedRowsPerPage + updatedRowsPerPage
       );
-
       setVisibleRows(updatedRows);
-
       // There is no layout jump to handle on the first page.
       setPaddingHeight(0);
     },
@@ -231,7 +210,6 @@ const EmployeeTable = (props) => {
       console.log('searchedVal type', typeof searchedVal);
       //return row.firstName.toLowerCase().includes(searchedVal.toLowerCase());
       return Object.values(row).some((value) =>
-        //typeof value === 'string' &&
         value
           .toString()
           .toLowerCase()
@@ -242,21 +220,18 @@ const EmployeeTable = (props) => {
   };
 
   const cancelSearch = () => {
-    //e.preventDefault();
     setSearched('');
     requestSearch('');
   };
-
   return (
     <>
       <TextField
-        sx={{ backgroundColor: 'pink' }}
+        sx={{ display: 'flex' }}
         label="Search bar"
         name="searchBar"
         margin="normal"
         value={searched}
         onChange={(event) => requestSearch(event.target.value)}
-        //onCancelSearch={() => cancelSearch()}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -273,40 +248,6 @@ const EmployeeTable = (props) => {
           ),
         }}
       />
-      <SearchBar
-        fullwidth
-        value={searched}
-        onChange={(searchVal) => requestSearch(searchVal)}
-        onCancelSearch={() => cancelSearch()}
-      />
-      {/* <SearchBar2 options={rows} /> */}
-      <SearchBar1 options={rows} />
-      <Autocomplete
-        id="free-solo-demo"
-        freeSolo
-        options={rows.map((option) => option.firstName)}
-        renderInput={(params) => (
-          <TextField {...params} label="search input" type="search" />
-        )}
-      />
-      {/* <Autocomplete
-        // autocomplete = normal texte input enhanced with options
-        freeSolo //can contain any arbitrary value
-        id="free-solo-2-demo"
-        disableClearable
-        options={rows.map((option) => option.title)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search input"
-            type="search"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      /> */}
       <TableContainer component={Paper} elevation={3}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <EnhancedTableHead
@@ -314,13 +255,6 @@ const EmployeeTable = (props) => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
           />
-          {/* <TableHead>
-            <TableRow>
-              {columnTitle.map((column) => (
-                <TableCell key={column.title}>{column.title}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead> */}
 
           <TableBody>
             {visibleRows
@@ -331,13 +265,11 @@ const EmployeeTable = (props) => {
                   >
                     <TableCell component="th" scope="row">
                       {row.firstName + row.id}
+                      {/* TODO= rajouter une condition, genre on concatène l'id s'il n'ya pas de prénom */}
                     </TableCell>
                     {/* j'enlève le premier index puisqu'il est traité avant avec la méthode slice */}
                     {columnTitle.slice(1).map((column) => (
                       <TableCell key={column.id + row.id}>
-                        {/* {console.log('column', row)} */}
-                        {/* {console.log('column', row[column.data])} */}
-                        {/* je ne suis pas sûre que la ternaire soit utile, à tester */}
                         {row[column.data]}
                         {/* TOUN = je ne suis pas sure du fonctionnement de cet appel */}
                       </TableCell>
@@ -374,45 +306,3 @@ const EmployeeTable = (props) => {
 };
 
 export default EmployeeTable;
-
-// OK = TODO récupérer les data de la fonction précédente, et les ajouter au tableau current employee
-// const EmployeeTable = () => {
-//   return (
-//     <TableContainer component={Paper} elevation={3}>
-//       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-//         <TableHead>
-//           <TableRow>
-//             {columnTitle.map((column) => (
-//               <TableCell key={column.title}>{column.title}</TableCell>
-//             ))}
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {rows.map((row) => (
-//             <TableRow
-//               key={row.name}
-//               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-//             >
-//               <TableCell component="th" scope="row">
-//                 {row.firstName}
-//               </TableCell>
-//               {/* j'enlève le premier index puisqu'il est traité avant avec la méthode slice */}
-//               {
-//                 (console.log(columnTitle.slice(1)),
-//                 columnTitle.slice(1).map((column) => (
-//                   <TableCell key={column.data}>
-//                     {/* je ne suis pas sûre que la ternaire soit utile, à tester */}
-//                     {row[column.data] ? row[column.data] : ''}
-//                   </TableCell>
-//                 )))
-//               }
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//       <TablePagination rowsPerPageOptions={[10, 50]} />
-//     </TableContainer>
-//   );
-// };
-
-// export default EmployeeTable;
