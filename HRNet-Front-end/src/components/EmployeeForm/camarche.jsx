@@ -4,29 +4,6 @@ import EmployeeFormSelect from './EmployeeFormSelect';
 import { departmentArray, statesArray } from './EmployeeFormData';
 import Modal from '../Modal/Modal';
 
-// OK - TODO=  problème affichage pour les dates
-// qu'est ce qu'on fait onsubmit le form?
-//    OK - TODO = on vide formulaire
-//    OK - TODO = on enregistre les datas
-//    OK - TODO = on vérifies que tous les champs obligatoires sont complétés
-// faire une fonctionnalité qui change uniquement les champs qui sont modifié pour éviter d'avoir 10 states différents comment je fais ça?
-// OK - TODO =  mettre la modale en place
-// OK - TODO =  au save,
-//    OK - enregistrer les infos
-//    OK - les envoyer à la page suivant qui va les afficher
-//    OK - afficher la modale
-// OK - TODO = modale:
-//    OK - modale de confirmation
-//    OK - quand on appuie sur croix ferme la modale
-// OK - TODO = selectbox: une avec les etats
-// OK - TODO = selectbox: avec les fonctions
-//
-//bug:
-// OK - TODO = placement de la select par rapport à l'input
-// OK - TODO = affichage date et placeholder
-//fcn:
-// TODO = mettre en place des validations de formulaires ou se renseigner sur les bonne praitques
-
 const initialValuesForm = {
   firstName: {
     value: '',
@@ -78,17 +55,16 @@ const EmployeeForm = () => {
     today.getFullYear() - 18,
     today.getMonth(),
     today.getDate()
-  ); // calcule la date correspondant à 18 ans moins un jour avant aujourd'hui
-  const maxDate = maxAgeDate.toISOString().slice(0, 10); // convertit la date au format ISO 8601 (YYYY-MM-DD)
+  );
+  const maxDate = maxAgeDate.toISOString().slice(0, 10);
   const minAgeDate = new Date(
     today.getFullYear() - 100,
     today.getMonth(),
     today.getDate()
-  ); // calcule la date correspondant à 100 ans moins un jour avant aujourd'hui
-  const minDate = minAgeDate.toISOString().slice(0, 10); // convertit la date au format ISO 8601 (YYYY-MM-DD)
+  );
+  const minDate = minAgeDate.toISOString().slice(0, 10);
 
   const handleChange = (e) => {
-    // récupère name et valeur de l'input de l'évènement écouté
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -97,26 +73,15 @@ const EmployeeForm = () => {
         value,
       },
     });
-    // contrôle du champ avec validate
     validate({ [name]: value });
   };
 
-  // fcn validate: tu prends la valeur qui est maintenant dans un état local,
-  // TODOD = si la valeur est bonne (encart vert quand on change de case (on blur)
-  //      - utilisez le input:invalid et input:valid pour ça?
-  // OK - si la valeur n'est pas bonne rouge pendant le typing (onchange)
-  // OK - définir comment une valeur est bonne ou pas , prénom: 2 caractères
-  // OK - si le truc est vide, bloquer à la submission
-  // TODO : traitement particulier de la select !!!
-  const validate = (
-    fieldValue
-    //= formValues
-  ) => {
+  const validate = (fieldValue = formValues) => {
     let watchingError = { ...errors };
 
     if ('firstName' in fieldValue) {
       watchingError.firstName =
-        fieldValue?.firstName.length >= 2 ? false : true;
+        fieldValue?.firstName.length >= 5 ? false : true;
     }
     if ('lastName' in fieldValue) {
       watchingError.lastName = fieldValue?.lastName.length >= 2 ? false : true;
@@ -138,11 +103,19 @@ const EmployeeForm = () => {
     if ('stateAddress' in fieldValue) {
       watchingError.stateAddress = fieldValue.stateAddress ? false : true;
     }
+    // if ('zipCodeAddress' in fieldValue) {
+    //   const zipPattern = /[0-9]{5}/;
+    //   watchingError.zipCodeAddress = zipPattern.test(fieldValue.zipCodeAddress)
+    //     ? false
+    //     : true;
+    // }
     if ('zipCodeAddress' in fieldValue) {
       const zipPattern = /[0-9]{5}/;
-      if (zipPattern.test(fieldValue.zipCodeAddress) == false) {
-        watchingError.zipCodeAddress = true;
-      } else if (fieldValue?.zipCodeAddress.length > 5) {
+      console.log('longueur', fieldValue);
+      if (
+        //zipPattern.test(fieldValue.zipCodeAddress) == false &&
+        fieldValue?.zipCodeAddress.length > 5
+      ) {
         watchingError.zipCodeAddress = true;
       } else {
         watchingError.zipCodeAddress = false;
@@ -156,10 +129,12 @@ const EmployeeForm = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('debut handle submit formvalues', formValues); // les champs vident
+    validate(formValues);
+    console.log('début handle submit errors', errors);
 
     const formData = new FormData(event.target);
-    console.log('form data', formData);
-    // avant cette étape, vérifier les datas pour qu'il n'y ait pas de champs vide
+
     const newEmployee = {
       id: Date.now(),
       firstName: formData.get('firstName'),
@@ -172,32 +147,30 @@ const EmployeeForm = () => {
       zipCodeAddress: formData.get('zipCodeAddress'),
       department: formData.get('department'),
     };
-    let isvalid = 0;
-    for (const value of formData.values()) {
-      console.log(value);
-      value == '' || formValues === null
-        ? console.log(isvalid)
-        : console.log(isvalid++);
-    }
-    validate(newEmployee);
-    if (isvalid === 9) {
+
+    console.log('après validate de handle, y a des erreurs?', errors);
+    console.log(
+      'que renvoi le if object',
+      Object.values(errors).includes(true)
+    );
+
+    if (Object.values(errors).includes(true) == false) {
       const employees = JSON.parse(localStorage.getItem('employees')) || [];
       employees.push(newEmployee);
       localStorage.setItem('employees', JSON.stringify(employees));
-      const body = document.getElementsByTagName('body');
-      body[0].style.backgroundColor = 'pink';
       setShowModal(true);
+      console.log('le premier employee', newEmployee);
+
       setFormValues(initialValuesForm);
     } else {
       console.log('il y a in problem à la soumission');
       console.log('voici les erreurs', errors);
-      const body = document.getElementsByTagName('body');
-      body[0].style.backgroundColor = 'green';
     }
   };
 
   return (
     <>
+      {' '}
       {showModal && (
         <Modal
           showModal
@@ -250,6 +223,7 @@ const EmployeeForm = () => {
                   type="text"
                   value={formValues.firstName.value}
                   onChange={handleChange}
+                  //onBlur={}
                   error={errors.firstName}
                   helperText={
                     errors.firstName && formValues.firstName.errorMessage
@@ -266,6 +240,7 @@ const EmployeeForm = () => {
                   type="text"
                   value={formValues.lastName.value}
                   onChange={handleChange}
+                  //onBlur={}
                   error={errors.lastName}
                   helperText={
                     errors.lastName && formValues.lastName.errorMessage
@@ -289,6 +264,7 @@ const EmployeeForm = () => {
                   }}
                   value={formValues.birthDate.value}
                   onChange={handleChange}
+                  //onBlur={}
                   error={errors.birthDate}
                   helperText={
                     errors.birthDate && formValues.birthDate.errorMessage
@@ -312,10 +288,11 @@ const EmployeeForm = () => {
                   }}
                   inputProps={{
                     min: '2012-05-23',
-                    //admitting that the cie has been created on mai 2012
+                    //in the case the cie has been created this day
                   }}
                   value={formValues.startDate.value}
                   onChange={handleChange}
+                  //onBlur={}
                   error={errors.startDate}
                   helperText={
                     errors.startDate && formValues.startDate.errorMessage
@@ -337,6 +314,7 @@ const EmployeeForm = () => {
                         type="text"
                         value={formValues.streetAddress.value}
                         onChange={handleChange}
+                        //onBlur={}
                         error={errors.streetAddress}
                         helperText={
                           errors.streetAddress &&
@@ -355,6 +333,7 @@ const EmployeeForm = () => {
                         type="text"
                         value={formValues.cityAddress.value}
                         onChange={handleChange}
+                        //onBlur={}
                         error={errors.cityAddress}
                         helperText={
                           errors.cityAddress &&
@@ -371,6 +350,7 @@ const EmployeeForm = () => {
                         required
                         value={formValues.stateAddress.value}
                         onChange={handleChange}
+                        //onBlur={}
                         error={errors.stateAddress}
                         helpertext={
                           errors.stateAddress &&
@@ -388,9 +368,10 @@ const EmployeeForm = () => {
                         name="zipCodeAddress"
                         type="text"
                         inputMode="numeric" //pour le responsive
-                        inputProps={{ pattern: '[0-9]{5}' }}
+                        inputProps={{ pattern: '[0-9]{5}', max: '5' }}
                         value={formValues.zipCodeAddress.value}
                         onChange={handleChange}
+                        //onBlur={}
                         error={errors.zipCodeAddress}
                         helperText={
                           errors.zipCodeAddress &&
@@ -410,6 +391,7 @@ const EmployeeForm = () => {
                   required
                   value={formValues.department.value}
                   onChange={handleChange}
+                  //onBlur={}
                   error={errors.department}
                   helpertext={
                     errors.department && formValues.department.errorMessage

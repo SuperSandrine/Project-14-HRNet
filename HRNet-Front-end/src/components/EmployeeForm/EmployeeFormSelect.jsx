@@ -1,18 +1,23 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import React from 'react';
 
 const EmployeeFormSelect = (props) => {
   const [value, setValue] = React.useState('');
-  console.log('les props de selc', props);
-  const { name, title, options, required } = props;
+  const { name, title, options, required, error, helpertext } = props;
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   return (
-    <FormControl required={required} fullWidth>
-      <InputLabel id="department">{title}</InputLabel>
+    <FormControl required={required} fullWidth error={error}>
+      <InputLabel id="name">{title}</InputLabel>
       <Select
         labelId={name}
         id={name}
@@ -20,6 +25,15 @@ const EmployeeFormSelect = (props) => {
         label={title}
         value={value}
         onChange={handleChange}
+        MenuProps={{
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+          },
+          style: {
+            maxHeight: 200,
+          },
+        }}
       >
         {options.map((item) => (
           <MenuItem key={item.id} value={item.id}>
@@ -27,6 +41,7 @@ const EmployeeFormSelect = (props) => {
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText>{helpertext}</FormHelperText>
     </FormControl>
   );
 };
