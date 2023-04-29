@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       {/* //<h1> Welcome home </h1> */}
       <RootLayout>
-        <h1> Welcome home page </h1>
+        <h2> Welcome home page </h2>
       </RootLayout>
     </div>
   );

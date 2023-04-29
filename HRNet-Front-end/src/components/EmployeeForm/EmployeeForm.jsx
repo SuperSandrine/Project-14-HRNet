@@ -214,7 +214,7 @@ const EmployeeForm = () => {
           flexWrap: 'wrap',
           '& > :not(style)': {
             m: 1,
-            width: 4 / 5,
+            width: { sm: 4 / 5, xs: '100vw' },
           },
         }}
       >
@@ -312,7 +312,7 @@ const EmployeeForm = () => {
                   }}
                   inputProps={{
                     min: '2012-05-23',
-                    //admitting that the cie has been created on mai 2012
+                    //admitting the cie has been created on mai 2012
                   }}
                   value={formValues.startDate.value}
                   onChange={handleChange}
@@ -323,7 +323,7 @@ const EmployeeForm = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={12} sx={{ textAlign: 'left' }}>
                 <Box component="fieldset">
                   <legend>Address</legend>
                   <Grid container spacing={2}>

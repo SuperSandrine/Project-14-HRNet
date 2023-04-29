@@ -27,7 +27,7 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -53,7 +53,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', sm: 'none' },
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
@@ -81,7 +81,7 @@ function ResponsiveAppBar() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: 'none', sm: 'flex' },
               justifyContent: 'flex-end',
             }}
           >
@@ -101,42 +101,3 @@ function ResponsiveAppBar() {
   );
 }
 export default ResponsiveAppBar;
-
-// import * as React from 'react';
-// import { AppBar, Box, Toolbar, Button } from '@mui/material';
-// import { NavLink } from 'react-router-dom';
-
-// //TODO mettre un logo ou un titre HRNET
-// export default function Navbar() {
-//   return (
-//     <nav>
-//       <Box sx={{ flexGrow: 1 }}>
-//         <AppBar position="static">
-//           <Toolbar style={{ justifyContent: 'flex-end' }}>
-//             {/* <IconButton
-//               size="medium"
-//               edge="start"
-//               color="inherit"
-//               aria-label="menu"
-//               sx={{ mr: 2 }}
-//             > */}
-//             {/* <MenuIcon /> */}
-//             {/* ceci est un style appliqué  */}
-//             {/* </IconButton> */}
-//             {/* si jamais on va ajouter un bouton avec un icon dedans */}
-//             <Button color="inherit" component={NavLink} to="/">
-//               Home
-//             </Button>
-//             <Button color="inherit" component={NavLink} to="/employee/create">
-//               Create Employee
-//             </Button>
-//             <Button color="inherit" component={NavLink} to="/employee/list">
-//               Employee List
-//               {/* TODO changer dynamiquement employee avec s ou pas en fonction du nombre d'employe dans le store */}
-//             </Button>
-//           </Toolbar>
-//         </AppBar>
-//       </Box>
-//     </nav>
-//   );
-// }

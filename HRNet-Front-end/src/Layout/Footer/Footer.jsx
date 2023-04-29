@@ -1,8 +1,13 @@
+import { Typography } from '@mui/material';
+import { FooterStyled } from '../RootLayout.styled';
+
 const Footer = () => {
   return (
-    <footer>
-      <h4>Footer </h4>
-    </footer>
+    <FooterStyled>
+      <Typography variant="body2" gutterBottom>
+        Tous droits réservés © Wealth Health 2023
+      </Typography>
+    </FooterStyled>
   );
 };
 
