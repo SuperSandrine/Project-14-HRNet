@@ -4,119 +4,26 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
-  Box,
   InputAdornment,
-  TablePagination,
-  TableSortLabel,
   TextField,
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 
-const columnTitle = [
-  { title: 'First Name', data: 'firstName', id: 'AA' },
-  { title: 'Last Name', data: 'lastName', id: 'AB' },
-  { title: 'Start Date', data: 'startDate', id: 'AC' },
-  { title: 'Department', data: 'department', id: 'AD' },
-  { title: 'Date of Birth', data: 'birthDate', id: 'AE' },
-  { title: 'Street', data: 'streetAddress', id: 'AF' },
-  { title: 'City', data: 'cityAddress', id: 'AG' },
-  { title: 'State', data: 'stateAddress', id: 'AH' },
-  { title: 'Zip Code', data: 'zipCodeAddress', id: 'AI' },
-];
+import { columnTitle } from './EmployeeTableData';
+import { getComparator, stableSort } from '../../utils/functions';
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { EnhancedTableHead } from './EnhancedTableHead';
+import { EmployeeTablePagination } from './EmployeeTablePagination';
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'firstName';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 //_________________________________
-//_________________________________
-//_________________________________
-const EnhancedTableHead = (props) => {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (newOrderBy) => (event) => {
-    onRequestSort(event, newOrderBy);
-  };
-  console.log("qu'est ce que orderby", orderBy);
-  console.log("qu'est ce que order", order);
 
-  return (
-    <TableHead>
-      <TableRow>
-        {columnTitle.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            padding="normal"
-            //padding={headCell.disablePadding ? 'none' : 'normal'}
-            //sortDirection={orderBy === headCell.id ? order : false}
-            //sortDirection="asc"
-          >
-            <TableSortLabel
-              active={orderBy === headCell.data}
-              direction={orderBy === headCell.data ? order : 'asc'}
-              onClick={createSortHandler(headCell.data)}
-              hideSortIcon={false}
-            >
-              {headCell.title}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-              {/* box= button= titre et petite flèche */}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-};
-
-// EnhancedTableHead.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-//   onRequestSort: PropTypes.func.isRequired,
-//   onSelectAllClick: PropTypes.func.isRequired,
-//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//   orderBy: PropTypes.string.isRequired,
-// };
-
-//___________________________________
-//___________________________________
-//___________________________________
-//___________________________________
-//___________________________________
 const EmployeeTable = (props) => {
   const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY); // by default: firstname
@@ -125,8 +32,9 @@ const EmployeeTable = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE); // un chiffre qui indique le nb de rows/page
   const [paddingHeight, setPaddingHeight] = useState(0);
   const [searched, setSearched] = useState('');
+  const [filtered, setFiltered] = useState({});
 
-  console.log('voici les props de employee table', props.data);
+  //console.log('voici les props de employee table', props.data);
   const { data } = props;
   const rows = data;
 
@@ -143,7 +51,6 @@ const EmployeeTable = (props) => {
 
     setVisibleRows(rowsOnMount);
   }, []);
-  //console.log('les rows visibles', visibleRows);
 
   const handleRequestSort = useCallback(
     (event, newOrderBy) => {
@@ -151,8 +58,10 @@ const EmployeeTable = (props) => {
       const toggledOrder = isAsc ? 'desc' : 'asc';
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
+      // console.log('row', rows);
+      // console.log('filteres our ow', filtered);
       const sortedRows = stableSort(
-        rows,
+        !filtered ? rows : filtered,
         getComparator(toggledOrder, newOrderBy)
       );
       const updatedRows = sortedRows.slice(
@@ -168,7 +77,10 @@ const EmployeeTable = (props) => {
     (event, newPage) => {
       setPage(newPage);
 
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
+      const sortedRows = stableSort(
+        !filtered ? rows : filtered,
+        getComparator(order, orderBy)
+      );
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
@@ -207,7 +119,7 @@ const EmployeeTable = (props) => {
   const requestSearch = (searchedVal) => {
     setSearched(searchedVal);
     const filteredRows = rows.filter((row) => {
-      console.log('searchedVal type', typeof searchedVal);
+      //console.log('searchedVal type', typeof searchedVal);
       //return row.firstName.toLowerCase().includes(searchedVal.toLowerCase());
       return Object.values(row).some((value) =>
         value
@@ -216,13 +128,27 @@ const EmployeeTable = (props) => {
           .includes(searchedVal.toString().toLowerCase())
       );
     });
-    setVisibleRows(filteredRows);
+    //console.log('les filstrés?', filteredRows);
+    setFiltered(filteredRows);
+    const updatedRows = filteredRows.slice(
+      0 * rowsPerPage,
+      0 * rowsPerPage + rowsPerPage
+    );
+    setVisibleRows(updatedRows);
+    console.log('rowsperpage', rowsPerPage);
+    setPage(0);
   };
 
   const cancelSearch = () => {
-    setSearched('');
+    //setSearched('');
     requestSearch('');
+    //setPage(0)
   };
+
+  const inputsearchbar = document.getElementById(':r1:');
+  console.log("qu'y a til dans la searchBar", inputsearchbar);
+  console.log("qu'y a til dans searched", searched);
+
   return (
     <>
       <TextField
@@ -290,17 +216,33 @@ const EmployeeTable = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[2, 5, 10, 50]}
-        component="div"
-        //count={rows.length}
-        count={rows ? rows.length : 0}
-        //TOUN qu'est ce qu'on affiche, les row visible ou all rows?
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {/* TODO : trouver un moyen d'afficher l'unr par rapport à l'autre en mode ternaire 
+      ||
+      filtered.length == rows.length  et && filtered.length != rows.length */}
+      {rows.length > 0 && searched.length == 0 ? (
+        <EmployeeTablePagination
+          rows={rows}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChangeFcn={handleChangePage}
+          onRowsPerPageChangeFcn={handleChangeRowsPerPage}
+          labelDisplayedRows={({ from, to, count }) =>
+            `Displaying ${from} to ${to} of ${count} entries`
+          }
+        />
+      ) : null}{' '}
+      {searched.length > 0 ? (
+        <EmployeeTablePagination
+          rows={filtered}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChangeFcn={handleChangePage}
+          onRowsPerPageChangeFcn={handleChangeRowsPerPage}
+          labelDisplayedRows={({ from, to, count }) =>
+            `Displaying ${from} to ${to} of ${count} entries (filtered from ${rows.length} total entries)`
+          }
+        />
+      ) : null}{' '}
     </>
   );
 };

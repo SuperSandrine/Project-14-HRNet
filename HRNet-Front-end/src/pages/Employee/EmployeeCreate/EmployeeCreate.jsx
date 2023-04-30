@@ -1,6 +1,5 @@
 // mettre en place un redux
 
-import { Box, Paper } from '@mui/material';
 import EmployeeForm from '../../../components/EmployeeForm/EmployeeForm';
 
 const EmployeeCreate = () => {
