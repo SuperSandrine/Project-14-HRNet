@@ -1,7 +1,7 @@
 import { TablePagination } from '@mui/material';
+import { TablePaginationActions } from './EmployeeTablePaginationActions';
 
 export const EmployeeTablePagination = (props) => {
-  console.log('*********** props table pagination', props);
   const {
     rows,
     rowsPerPage,
@@ -12,39 +12,58 @@ export const EmployeeTablePagination = (props) => {
   } = props;
 
   return (
-    <TablePagination
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        '&> div': {
+    <>
+      <TablePagination
+        sx={{
           display: 'flex',
-          flexDirection: { xs: 'unset', sm: 'row' },
-          flexWrap: { xs: 'wrap', sm: 'nowrap' },
           justifyContent: 'center',
-          paddingLeft: { xs: '0' },
-          margin: { xs: '0' },
           '&> div': {
+            display: 'flex',
+            flexDirection: { xs: 'unset', md: 'row' },
+            flexWrap: { xs: 'wrap', md: 'nowrap' },
+            justifyContent: 'center',
+            paddingLeft: { xs: '0' },
             margin: { xs: '0' },
+            '&> div': {
+              margin: { xs: '0' },
+              '&> .css-194a1fa-MuiSelect-select-MuiInputBase-input ': {
+                backgroundColor: '#1976d2',
+                borderRadius: '50%',
+                color: 'white',
+                padding: 0,
+                paddingLeft: '3px',
+                paddingRight: '3px',
+                height: '32px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '3px',
+                marginRight: '3px',
+              },
+              '&> svg': {
+                color: 'white',
+                padding: 0,
+              },
+            },
+            '& .MuiTablePagination-actions': {
+              margin: { xs: '0' },
+            },
           },
-          '& .MuiTablePagination-actions': {
-            margin: { xs: '0' },
+          '& p': {
+            wordBreak: 'break-word',
+            maxWidth: '100%',
           },
-        },
-        '& p': {
-          wordBreak: 'break-word',
-          maxWidth: '100%',
-        },
-      }}
-      rowsPerPageOptions={[2, 5, 10, 50]}
-      component="div"
-      //count={rows.length}
-      count={rows.length}
-      //TOUN qu'est ce qu'on affiche, les row visible ou all rows?
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={onPageChangeFcn}
-      onRowsPerPageChange={onRowsPerPageChangeFcn}
-      labelDisplayedRows={labelDisplayedRows}
-    />
+        }}
+        rowsPerPageOptions={[2, 5, 10, 50]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={onPageChangeFcn}
+        onRowsPerPageChange={onRowsPerPageChangeFcn}
+        labelDisplayedRows={labelDisplayedRows}
+        ActionsComponent={TablePaginationActions}
+      ></TablePagination>
+    </>
   );
 };

@@ -11,18 +11,14 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-
-import { columnTitle } from './EmployeeTableData';
 import { getComparator, stableSort } from '../../utils/functions';
-
+import { columnTitle } from './EmployeeTableData';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { EmployeeTablePagination } from './EmployeeTablePagination';
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'firstName';
 const DEFAULT_ROWS_PER_PAGE = 5;
-
-//_________________________________
 
 const EmployeeTable = (props) => {
   const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
@@ -34,21 +30,18 @@ const EmployeeTable = (props) => {
   const [searched, setSearched] = useState('');
   const [filtered, setFiltered] = useState({});
 
-  //console.log('voici les props de employee table', props.data);
   const { data } = props;
   const rows = data;
 
   useEffect(() => {
     let rowsOnMount = stableSort(
-      rows,
+      !filtered[0] ? rows : filtered,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
     );
-
     rowsOnMount = rowsOnMount.slice(
       0 * DEFAULT_ROWS_PER_PAGE,
       0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
     );
-
     setVisibleRows(rowsOnMount);
   }, []);
 
@@ -58,10 +51,8 @@ const EmployeeTable = (props) => {
       const toggledOrder = isAsc ? 'desc' : 'asc';
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
-      // console.log('row', rows);
-      // console.log('filteres our ow', filtered);
       const sortedRows = stableSort(
-        !filtered ? rows : filtered,
+        !filtered[0] ? rows : filtered,
         getComparator(toggledOrder, newOrderBy)
       );
       const updatedRows = sortedRows.slice(
@@ -78,7 +69,8 @@ const EmployeeTable = (props) => {
       setPage(newPage);
 
       const sortedRows = stableSort(
-        !filtered ? rows : filtered,
+        !filtered[0] ? rows : filtered,
+        //arrayPage,
         getComparator(order, orderBy)
       );
       const updatedRows = sortedRows.slice(
@@ -89,21 +81,28 @@ const EmployeeTable = (props) => {
       // Avoid a layout jump when reaching the last page with empty rows.
       const numEmptyRows =
         newPage > 0
-          ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
+          ? Math.max(
+              0,
+              (1 + newPage) * rowsPerPage -
+                (!filtered[0] ? rows.length : filtered.length)
+            )
           : 0;
+
       const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
     },
-    [order, orderBy, rowsPerPage]
+    [order, orderBy, rowsPerPage, filtered, rows]
   );
 
   const handleChangeRowsPerPage = useCallback(
     (event) => {
       const updatedRowsPerPage = parseInt(event.target.value, 10);
       setRowsPerPage(updatedRowsPerPage);
-      //console.log('quaije', updatedRowsPerPage); // renvoi le nombre sélectionner en nombre
       setPage(0);
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
+      const sortedRows = stableSort(
+        !filtered[0] ? rows : filtered,
+        getComparator(order, orderBy)
+      );
       const updatedRows = sortedRows.slice(
         0 * updatedRowsPerPage,
         0 * updatedRowsPerPage + updatedRowsPerPage
@@ -115,12 +114,9 @@ const EmployeeTable = (props) => {
     [order, orderBy]
   );
 
-  //console.log('visiblerow', visibleRows);
   const requestSearch = (searchedVal) => {
     setSearched(searchedVal);
     const filteredRows = rows.filter((row) => {
-      //console.log('searchedVal type', typeof searchedVal);
-      //return row.firstName.toLowerCase().includes(searchedVal.toLowerCase());
       return Object.values(row).some((value) =>
         value
           .toString()
@@ -128,26 +124,19 @@ const EmployeeTable = (props) => {
           .includes(searchedVal.toString().toLowerCase())
       );
     });
-    //console.log('les filstrés?', filteredRows);
     setFiltered(filteredRows);
     const updatedRows = filteredRows.slice(
       0 * rowsPerPage,
       0 * rowsPerPage + rowsPerPage
     );
     setVisibleRows(updatedRows);
-    console.log('rowsperpage', rowsPerPage);
     setPage(0);
   };
 
   const cancelSearch = () => {
-    //setSearched('');
     requestSearch('');
-    //setPage(0)
+    setPaddingHeight(0);
   };
-
-  const inputsearchbar = document.getElementById(':r1:');
-  console.log("qu'y a til dans la searchBar", inputsearchbar);
-  console.log("qu'y a til dans searched", searched);
 
   return (
     <>
@@ -181,7 +170,6 @@ const EmployeeTable = (props) => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
           />
-
           <TableBody>
             {visibleRows
               ? visibleRows.map((row) => (
@@ -216,21 +204,21 @@ const EmployeeTable = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* TODO : trouver un moyen d'afficher l'unr par rapport à l'autre en mode ternaire 
-      ||
-      filtered.length == rows.length  et && filtered.length != rows.length */}
-      {rows.length > 0 && searched.length == 0 ? (
-        <EmployeeTablePagination
-          rows={rows}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChangeFcn={handleChangePage}
-          onRowsPerPageChangeFcn={handleChangeRowsPerPage}
-          labelDisplayedRows={({ from, to, count }) =>
-            `Displaying ${from} to ${to} of ${count} entries`
-          }
-        />
-      ) : null}{' '}
+      {
+        //rows.length > 0 &&
+        searched.length == 0 ? (
+          <EmployeeTablePagination
+            rows={rows}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChangeFcn={handleChangePage}
+            onRowsPerPageChangeFcn={handleChangeRowsPerPage}
+            labelDisplayedRows={({ from, to, count }) =>
+              `Displaying ${from} to ${to} of ${count} entries`
+            }
+          />
+        ) : null
+      }{' '}
       {searched.length > 0 ? (
         <EmployeeTablePagination
           rows={filtered}

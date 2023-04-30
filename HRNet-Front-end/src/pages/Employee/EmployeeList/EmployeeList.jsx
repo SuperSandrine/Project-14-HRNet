@@ -17,11 +17,11 @@ import EmployeeTable from '../../../components/EmployeeTable/EmployeeTable';
 // OK - un bouton sur chaque colonne qui affiche un ordre ou un désordre
 
 const EmployeeList = () => {
-  const savedData = localStorage.getItem('employees');
-  if (savedData) {
-    const employeeFromLocalStorage = JSON.parse(savedData);
-    console.log('venant du localestorage', employeeFromLocalStorage);
-  }
+  //const savedData = localStorage.getItem('employees');
+  //if (savedData) {
+  //const employeeFromLocalStorage = JSON.parse(savedData);
+  //console.log('venant du localestorage', employeeFromLocalStorage);
+  //}
 
   return (
     <div>

@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <FooterStyled>
       <Typography variant="body2" gutterBottom>
-        Tous droits réservés © Wealth Health 2023
+        Copyright © Wealth Health 2023
       </Typography>
     </FooterStyled>
   );
