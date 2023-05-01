@@ -1,0 +1,81 @@
+.tUv39-modal-blocker-div {
+  position: fixed;
+  inset: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  z-index: 2;
+}
+.tUv39-modal-blocker-div-fadeIn {
+  animation-name: fadeIn;
+  /* animation-duration: 4s; */
+}
+
+.tUv39-modalseconddiv {
+  width: fit-content;
+  max-width: 80vw;
+  background-color: white;
+  padding: 5vw;
+  border-radius: 1vw;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* passer à cet affichage si les caractères sont superiors à "x" (exemple de 286caractères) */
+@media (max-width: 600px) {
+  .tUv39-modalseconddiv {
+    width: 90vw;
+  }
+}
+
+.tUv39-modalclose-h3 {
+  margin: 0px 0px 0.35em;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.tUv39-modalclose-p {
+  margin: 0px 0px 1em;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.tUv39-modalclose-button {
+  /* padding: 2vw; */
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: unset;
+  background-color: blue;
+  color: white;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

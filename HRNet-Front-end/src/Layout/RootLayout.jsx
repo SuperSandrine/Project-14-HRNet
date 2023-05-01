@@ -9,9 +9,7 @@ const RootLayout = ({ children }) => {
       maxWidth="lg"
       sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
     >
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
       <MainStyled>
         <h1>HRnet</h1>
         {children}

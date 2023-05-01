@@ -69,7 +69,7 @@ const initialValuesForm = {
 };
 
 const EmployeeForm = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const [formValues, setFormValues] = useState(initialValuesForm);
   const [errors, setErrors] = useState({});
 
@@ -203,11 +203,17 @@ const EmployeeForm = () => {
           showModal
           onClose={() => setShowModal(false)}
           title="Employee creation done"
+          backDropClickAndClose
+          fadeIn
+          //animationDuration="5"
         >
-          {'Your employee have been created !'}
+          {
+            'Your employee has been created ! ' // 'Also a 40 words paragraph : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac ornare tortor. Integer elementum lacinia dolor nec ullamcorper. Donec placerat condimentum euismod. Pellentesque ac tempus nisi. Mauris eget ultrices leo. Morbi nulla lacus, vulputate sit amet tristique sed, maximus in. '
+          }
         </Modal>
       )}
       <Box
+        id="formContainer"
         sx={{
           display: 'flex',
           justifyContent: 'center',
