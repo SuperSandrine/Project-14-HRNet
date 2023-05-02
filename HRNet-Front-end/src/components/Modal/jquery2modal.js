@@ -50,13 +50,22 @@
           if (this.$elm.length !== 1) return null;
           this.$body.append(this.$elm);
           this.open();
+          // si l'el qui a déclenché la modale est un <a>, on récupère le href
+          // si le href possède # et a une longueur !=1  >>return null
+          // si le href possède # et si la longueur est 1, alors on met le href dans le corps  et on ouvre la modale
+
           //AJAX
         } else {
           this.$elm = $('<div>');
           this.$body.append(this.$elm);
+          // si le href ne possède pas #, alors c'est un lien externe et du coup il y a une requete AJAX
+          // on crée une div
+          // on met dans body la div qui contient ce qui a été récupéré en ajax
           remove = function (event, modal) {
             modal.elm.remove();
           };
+          // crée une fonctin remove.
+
           this.showSpinner();
           el.trigger($.modal.AJAX_SEND);
           $.get(target)

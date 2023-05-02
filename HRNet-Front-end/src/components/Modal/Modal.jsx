@@ -1,8 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './modal.styles.css';
+import CloseIcon from './closeIcon.svg';
+import SpinnerModal from '../../components/Modal/SpinnerModal';
 
 const Modal = (props) => {
   const modalRef = useRef(null);
+  const [newDataHref, setNewDataHref] = useState(null);
   console.log('les props de la modal', props);
   const {
     children,
@@ -13,6 +16,10 @@ const Modal = (props) => {
     closeAllModalsBefore,
     fadeIn,
     animationDuration,
+    fadeOut,
+    dataHref,
+    closureButton,
+    ajaxData,
   } = props;
 
   const notFocusable = document.querySelectorAll(
@@ -24,6 +31,10 @@ const Modal = (props) => {
       if (closeAllModalsBefore) {
         closeAllModals();
       }
+      if (dataHref) {
+        myParentConditions();
+      }
+      console.log("estce que j'a animation??", animationDuration != undefined);
       if (fadeIn && animationDuration) {
         modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
         modalRef.current.style.setProperty(
@@ -34,42 +45,57 @@ const Modal = (props) => {
         modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
         modalRef.current.style.setProperty('animation-duration', `2s`);
       }
-      document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
       document.body.style.backgroundColor = 'yellow';
       notFocusable.forEach((element) => {
         element.setAttribute('aria-hidden', true);
       });
       console.log('notfocus,', notFocusable);
+      //console.log("est-ce que j'ai modal ref", modalRef);
 
-      console.log("est-ce que j'ai modal ref", modalRef);
-      modalRef.current.focus();
       modalRef.current.setAttribute('aria-hidden', false);
       modalRef.current.setAttribute('overflow', '');
+      modalRef.current.focus();
+      document.addEventListener(
+        'keydown',
+        handleKeyboardNavigation(event, modalRef.current)
+      );
     }
   }, [showModal]);
-
-  const handleKeyDown = (event) => {
-    if (event.keyCode === 27) {
-      handleModalClose();
-    }
-  };
 
   const handleModalClose = () => {
     document.body.style.overflow = 'auto';
     document.body.style.backgroundColor = 'white';
     //      notFocusable.setAttribute('aria-hidden', false);
-    document.removeEventListener('keydown', handleKeyDown);
+    document.removeEventListener('keydown', handleKeyboardNavigation);
 
     notFocusable.forEach((element) => {
       element.setAttribute('aria-hidden', false);
     });
-    onClose();
+    if (fadeOut && animationDuration) {
+      modalRef.current.classList.add('tUv39-modal-blocker-div-fadeOut');
+      modalRef.current.style.setProperty(
+        'animation-duration',
+        `${animationDuration}s`
+      );
+      setTimeout(() => {
+        onClose();
+      }, animationDuration * 1000 - 100);
+    } else if (fadeOut && !animationDuration) {
+      modalRef.current.classList.add('tUv39-modal-blocker-div-fadeOut');
+      modalRef.current.style.setProperty('animation-duration', `2s`);
+      setTimeout(() => {
+        onClose();
+      }, 1900);
+    } else {
+      onClose();
+    }
   };
+
   const handleBackDropClick = () => {
     backDropClickAndClose ? handleModalClose() : null;
   };
-  function closeAllModals() {
+  const closeAllModals = () => {
     const modals = document.querySelectorAll('.tUv78');
     console.log('toutes les modals', modals);
     modals.forEach((modal) => {
@@ -78,16 +104,108 @@ const Modal = (props) => {
         //document.body.style.backgroundColor = 'blue';
       }
     });
-  }
+  };
 
+  const handleKeyboardNavigation = (event, parent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const tabbableElementsSelectors =
+      '#dialogTitle, #dialogDesc, #dialogButton';
+    const allTabbableElements = parent.querySelectorAll(
+      tabbableElementsSelectors
+    );
+    console.log('voici les tabale', allTabbableElements);
+
+    const trapFocusInModal = (event, parent) => {
+      //document.addEventListener('keydown', handleKeyDown);
+      let index = Array.from(allTabbableElements).findIndex(
+        (i) => i === parent.querySelector(':focus')
+      );
+      if (event.shiftKey === true) {
+        index--;
+      } else {
+        index++;
+      }
+      if (index >= allTabbableElements.length) {
+        index = 0;
+      }
+      if (index < 0) {
+        index = allTabbableElements.length - 1;
+      }
+      allTabbableElements[index].focus();
+    };
+
+    parent.addEventListener('keydown', function (event) {
+      event.preventDefault();
+      //event.stopImmediatePropagation();
+      if (event.keyCode === 9) {
+        trapFocusInModal(event, parent);
+        console.log('où est le focus', document.activeElement);
+      } else if (event.keyCode !== 9) {
+        event.preventDefault();
+        //event.stopImmediatePropagation();
+        if (event.keyCode === 27) {
+          handleModalClose();
+        } else if (
+          document.activeElement.id === 'dialogButton' &&
+          event.keyCode === 13
+        ) {
+          handleModalClose();
+        }
+      }
+    });
+  };
+
+  // console.log("qu'ai je dans e", e.target);
+  // const href = decodeURI(e.currentTarget.href);
+  // const anchor = href.split('#')[1];
+
+  const myParentConditions = () => {
+    //console.log('les daaaaaata,', dataHref);
+    //if (/^#/.test(dataHref)) {
+    if (dataHref.includes('#')) {
+      console.log('les daaaaaata,', dataHref);
+      const href = decodeURI(dataHref);
+      const anchor = href.split('#')[1];
+      setNewDataHref(anchor);
+    }
+    if (dataHref.includes('#') == false) {
+      console.log('CEST UN LIEN EXTERNE', dataHref);
+
+      setNewDataHref(<SpinnerModal />);
+      fetch(dataHref)
+        .then((response) => {
+          console.log('REPONSE', response);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const func = eval(`(${ajaxData})`);
+          console.log("J'ai reçu les data", data, func);
+
+          setNewDataHref(<div>{func}</div>);
+          // faire quelque chose avec les données reçues
+        })
+        .catch((error) => {
+          console.error('Il y a eu un problème avec la requête fetch:', error);
+          setNewDataHref(<div>"fetch return error"</div>);
+        });
+    }
+
+    //   const myParent = document.querySelector();
+  };
+
+  // Voici la modal
   return showModal ? (
     <div
       id="modalBackdrop"
       className="tUv39-modal-blocker-div tUv78"
       onClick={handleBackDropClick}
-      //onKeyDown={handleTab}
     >
       <div
+        tabIndex="-1"
         ref={modalRef}
         id="modal"
         role="dialog"
@@ -95,17 +213,42 @@ const Modal = (props) => {
         aria-describedby="dialogDesc"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="tUv39-modalseconddiv"
+        className="tUv39-modal-container"
       >
-        <h3 className="tUv39-modalclose-h3" id="dialogTitle">
+        <h3 className="tUv39-modalclose-h3" id="dialogTitle" tabIndex={1}>
           {title}
         </h3>
-        <p className="tUv39-modalclose-p" id="dialogDesc">
+        <div
+          role="p"
+          className="tUv39-modalclose-p"
+          id="dialogDesc"
+          tabIndex={2}
+        >
           {children}
-        </p>
-        <button onClick={handleModalClose} className="tUv39-modalclose-button">
-          Close
-        </button>
+          <br />
+          {newDataHref}
+        </div>
+        {closureButton ? (
+          <button
+            onClick={handleModalClose}
+            id="dialogButton"
+            className="tUv39-modalclose-button"
+            aria-label="close modal button"
+            tabIndex={3}
+          >
+            {closureButton}
+          </button>
+        ) : (
+          <button
+            onClick={handleModalClose}
+            id="dialogButton"
+            className="tUv39-modalclose-button-default"
+            aria-label="close modal button"
+            tabIndex={3}
+          >
+            <img src={CloseIcon} width={'20px'} />
+          </button>
+        )}
       </div>
     </div>
   ) : null;

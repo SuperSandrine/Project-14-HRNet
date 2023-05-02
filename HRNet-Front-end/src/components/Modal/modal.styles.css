@@ -15,7 +15,13 @@
   /* animation-duration: 4s; */
 }
 
-.tUv39-modalseconddiv {
+.tUv39-modal-blocker-div-fadeOut {
+  animation-name: fadeOut;
+  /* animation-duration: 4s; */
+}
+
+.tUv39-modal-container {
+  position: relative;
   width: fit-content;
   max-width: 80vw;
   background-color: white;
@@ -33,7 +39,7 @@
 
 /* passer à cet affichage si les caractères sont superiors à "x" (exemple de 286caractères) */
 @media (max-width: 600px) {
-  .tUv39-modalseconddiv {
+  .tUv39-modal-container {
     width: 90vw;
   }
 }
@@ -48,7 +54,7 @@
 }
 
 .tUv39-modalclose-p {
-  margin: 0px 0px 1em;
+  margin: 0px;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -61,7 +67,7 @@
   padding: 6px 16px;
   border-radius: 4px;
   border: unset;
-  background-color: blue;
+  background-color: #1976d2;
   color: white;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 500;
@@ -69,13 +75,38 @@
   line-height: 1.75;
   letter-spacing: 0.02857em;
   text-transform: uppercase;
+  cursor: pointer;
+  margin: 1em 0px 0px;
+}
+.tUv39-modalclose-button-default {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 4px;
+  border: unset;
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  right: -20px;
+  top: calc(50% - 22px);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes fadeIn {
-  0% {
+  from {
     opacity: 0;
   }
-  100% {
+  to {
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
