@@ -1,5 +1,46 @@
 // OK = TOdO créer les tableaux pour les deux select:
 
+export const initialValuesForm = {
+  firstName: {
+    value: '',
+    errorMessage: 'You must enter a first name with 2 caractere minimum',
+  },
+  lastName: {
+    value: '',
+    errorMessage: 'You must enter a last name with 2 caractere minimum',
+  },
+  birthDate: {
+    value: '',
+    errorMessage: 'You must choose a birth Date',
+  },
+  startDate: {
+    value: '',
+    errorMessage: 'You must choose a start Date',
+  },
+  streetAddress: {
+    value: '',
+    errorMessage:
+      'You must enter a street for your address with 2 caractere minimum',
+  },
+  cityAddress: {
+    value: '',
+    errorMessage:
+      'You must enter a city for your address with 2 caractere minimum',
+  },
+  stateAddress: {
+    value: '',
+    errorMessage: 'You must choose a state for your address',
+  },
+  zipCodeAddress: {
+    value: '',
+    errorMessage: 'You must enter a zip code for your address with 5 digits',
+  },
+  department: {
+    value: '',
+    errorMessage: 'You must choose a department',
+  },
+};
+
 export const departmentArray = [
   {
     id: 'Sales',

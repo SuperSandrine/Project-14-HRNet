@@ -1,3 +1,7 @@
+:root {
+  --basicBlue: #1976d2;
+}
+
 .tUv39-modal-blocker-div {
   position: fixed;
   inset: 0px;
@@ -67,7 +71,9 @@
   padding: 6px 16px;
   border-radius: 4px;
   border: unset;
-  background-color: #1976d2;
+  /* background-color: (var(--customButtonColor), #1976d2); */
+  background-color: var(--my-color, --basicBlue);
+
   color: white;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 500;
@@ -85,7 +91,7 @@
   padding: 10px;
   border-radius: 4px;
   border: unset;
-  background-color: #1976d2;
+  background-color: var(--basicBlue);
   color: white;
   cursor: pointer;
   right: -20px;

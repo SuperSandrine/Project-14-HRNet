@@ -1,5 +1,5 @@
 import React from 'react';
-import './spinnerModal.css';
+import './spinnerModal.styles.css';
 
 const SpinnerModal = () => {
   return (

@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import RootLayout from '../../Layout/RootLayout';
 import { Button } from '@mui/material';
 import Modal from '../../components/Modal/Modal';
-import SpinnerModal from '../../components/Modal/SpinnerModal';
 
 const Home = () => {
   const [montre, setMontre] = useState(false);
   const [montre2, setMontre2] = useState(false);
-  const [montre3, setMontre3] = useState(false);
 
   const [dataToGive, setDataToGive] = useState(null);
 
   return (
     <div>
-      {/* //<h1> Welcome home </h1> */}
       <RootLayout>
         <h2 id="heading"> Welcome home page </h2>
         <Button variant="contained" onClick={() => setMontre(true)}>
@@ -23,9 +20,10 @@ const Home = () => {
         <a
           href="#heading"
           onClick={(e) => {
-            //e.preventDefault();
+            //console.log('le heading', e.target);
             setDataToGive(e.currentTarget.href);
             setMontre2(true);
+            //WARN: est-ce qu'il y a un moyen de récupérer ce qu'il y a dans le titre de h2?
           }}
         >
           {' '}
@@ -43,20 +41,24 @@ const Home = () => {
           {' '}
           un lien externe avec modal
         </a>
+        <p>
+          Test avec l'api{' '}
+          <a href="https://jsonplaceholder.typicode.com/users/1">
+            https://jsonplaceholder.typicode.com/users/1
+          </a>{' '}
+          pour le lien externe
+        </p>
       </RootLayout>
-      {/* {montre && ( */}
       <Modal
         showModal={montre}
         onClose={() => setMontre(false)}
-        fadeIn
-        fadeOut
+        //fadeIn
+        //fadeOut
         title="test"
-        //onOpen={document.querySelector('#modal').parentNode}
+        customButtonColor="orange"
       >
         {'Voici un test'}
       </Modal>
-      {/* )} */}
-      {/* {montre2 && ( */}
       <Modal
         showModal={montre2}
         onClose={() => setMontre2(false)}
@@ -64,10 +66,10 @@ const Home = () => {
         dataHref={dataToGive}
         closureButton={'je ferme'}
         ajaxData="data.name"
+        //customButtonColor="violet"
       >
         {'voici le lien sur lequel vous avez cliqué'}
       </Modal>
-      {/* )} */}
     </div>
   );
 };

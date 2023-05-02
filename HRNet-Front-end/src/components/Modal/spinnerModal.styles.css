@@ -1,3 +1,9 @@
+:root {
+  --basicBlue: #1976d2;
+}
+#modal {
+  --my-color: 0;
+}
 @-moz-keyframes tUv39-modal-three-quarters-loader {
   0% {
     -moz-transform: rotate(0deg);
@@ -37,7 +43,7 @@
   -moz-animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
   -webkit-animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
   animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
-  border: 8px solid #1976d2;
+  border: 8px solid var(--my-color, --basicBlue);
   border-right-color: transparent;
   border-radius: 16px;
   box-sizing: border-box;

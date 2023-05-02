@@ -1,7 +1,11 @@
 import { Box, Grid, TextField, Button, Paper } from '@mui/material';
 import { useState } from 'react';
 import EmployeeFormSelect from './EmployeeFormSelect';
-import { departmentArray, statesArray } from './EmployeeFormData';
+import {
+  departmentArray,
+  statesArray,
+  initialValuesForm,
+} from './EmployeeFormData';
 import Modal from '../Modal/Modal';
 
 // OK - TODO=  problème affichage pour les dates
@@ -27,49 +31,8 @@ import Modal from '../Modal/Modal';
 //fcn:
 // TODO = mettre en place des validations de formulaires ou se renseigner sur les bonne praitques
 
-const initialValuesForm = {
-  firstName: {
-    value: '',
-    errorMessage: 'You must enter a first name with 2 caractere minimum',
-  },
-  lastName: {
-    value: '',
-    errorMessage: 'You must enter a last name with 2 caractere minimum',
-  },
-  birthDate: {
-    value: '',
-    errorMessage: 'You must choose a birth Date',
-  },
-  startDate: {
-    value: '',
-    errorMessage: 'You must choose a start Date',
-  },
-  streetAddress: {
-    value: '',
-    errorMessage:
-      'You must enter a street for your address with 2 caractere minimum',
-  },
-  cityAddress: {
-    value: '',
-    errorMessage:
-      'You must enter a city for your address with 2 caractere minimum',
-  },
-  stateAddress: {
-    value: '',
-    errorMessage: 'You must choose a state for your address',
-  },
-  zipCodeAddress: {
-    value: '',
-    errorMessage: 'You must enter a zip code for your address with 5 digits',
-  },
-  department: {
-    value: '',
-    errorMessage: 'You must choose a department',
-  },
-};
-
 const EmployeeForm = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState(initialValuesForm);
   const [errors, setErrors] = useState({});
 
@@ -198,21 +161,20 @@ const EmployeeForm = () => {
 
   return (
     <>
-      {showModal && (
-        <Modal
-          showModal
-          onClose={() => setShowModal(false)}
-          title="Employee creation done"
-          backDropClickAndClose
-          fadeIn
-          //          animationDuration="5"
-          fadeOut
-        >
-          {
-            'Your employee has been created ! ' // 'Also a 40 words paragraph : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac ornare tortor. Integer elementum lacinia dolor nec ullamcorper. Donec placerat condimentum euismod. Pellentesque ac tempus nisi. Mauris eget ultrices leo. Morbi nulla lacus, vulputate sit amet tristique sed, maximus in. '
-          }
-        </Modal>
-      )}
+      <Modal
+        showModal={showModal}
+        onClose={() => setShowModal(false)}
+        title="Employee creation done"
+        backDropClickAndClose
+        fadeIn
+        //          animationDuration="5"
+        fadeOut
+      >
+        {
+          'Your employee has been created ! ' // 'Also a 40 words paragraph : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac ornare tortor. Integer elementum lacinia dolor nec ullamcorper. Donec placerat condimentum euismod. Pellentesque ac tempus nisi. Mauris eget ultrices leo. Morbi nulla lacus, vulputate sit amet tristique sed, maximus in. '
+        }
+      </Modal>
+
       <Box
         id="formContainer"
         sx={{

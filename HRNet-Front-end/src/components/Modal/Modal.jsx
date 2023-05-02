@@ -20,6 +20,7 @@ const Modal = (props) => {
     dataHref,
     closureButton,
     ajaxData,
+    customButtonColor,
   } = props;
 
   const notFocusable = document.querySelectorAll(
@@ -34,7 +35,6 @@ const Modal = (props) => {
       if (dataHref) {
         myParentConditions();
       }
-      console.log("estce que j'a animation??", animationDuration != undefined);
       if (fadeIn && animationDuration) {
         modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
         modalRef.current.style.setProperty(
@@ -46,13 +46,9 @@ const Modal = (props) => {
         modalRef.current.style.setProperty('animation-duration', `2s`);
       }
       document.body.style.overflow = 'hidden';
-      document.body.style.backgroundColor = 'yellow';
       notFocusable.forEach((element) => {
         element.setAttribute('aria-hidden', true);
       });
-      console.log('notfocus,', notFocusable);
-      //console.log("est-ce que j'ai modal ref", modalRef);
-
       modalRef.current.setAttribute('aria-hidden', false);
       modalRef.current.setAttribute('overflow', '');
       modalRef.current.focus();
@@ -60,15 +56,17 @@ const Modal = (props) => {
         'keydown',
         handleKeyboardNavigation(event, modalRef.current)
       );
+      if (customButtonColor) {
+        const modal = document.querySelector('#modal');
+        modal.style.setProperty('--my-color', customButtonColor);
+      }
     }
   }, [showModal]);
+  //WARN au survol, qual es?
 
   const handleModalClose = () => {
     document.body.style.overflow = 'auto';
-    document.body.style.backgroundColor = 'white';
-    //      notFocusable.setAttribute('aria-hidden', false);
     document.removeEventListener('keydown', handleKeyboardNavigation);
-
     notFocusable.forEach((element) => {
       element.setAttribute('aria-hidden', false);
     });
@@ -92,34 +90,17 @@ const Modal = (props) => {
     }
   };
 
-  const handleBackDropClick = () => {
-    backDropClickAndClose ? handleModalClose() : null;
-  };
-  const closeAllModals = () => {
-    const modals = document.querySelectorAll('.tUv78');
-    console.log('toutes les modals', modals);
-    modals.forEach((modal) => {
-      if (typeof modal.handleModalClose === 'function') {
-        modal.handleModalClose();
-        //document.body.style.backgroundColor = 'blue';
-      }
-    });
-  };
-
-  const handleKeyboardNavigation = (event, parent) => {
+  const handleKeyboardNavigation = (event, parentElement) => {
     event.preventDefault();
     event.stopPropagation();
     const tabbableElementsSelectors =
       '#dialogTitle, #dialogDesc, #dialogButton';
-    const allTabbableElements = parent.querySelectorAll(
+    const allTabbableElements = parentElement.querySelectorAll(
       tabbableElementsSelectors
     );
-    console.log('voici les tabale', allTabbableElements);
-
-    const trapFocusInModal = (event, parent) => {
-      //document.addEventListener('keydown', handleKeyDown);
+    const trapFocusInModal = (event, parentElement) => {
       let index = Array.from(allTabbableElements).findIndex(
-        (i) => i === parent.querySelector(':focus')
+        (i) => i === parentElement.querySelector(':focus')
       );
       if (event.shiftKey === true) {
         index--;
@@ -135,11 +116,10 @@ const Modal = (props) => {
       allTabbableElements[index].focus();
     };
 
-    parent.addEventListener('keydown', function (event) {
+    parentElement.addEventListener('keydown', function (event) {
       event.preventDefault();
-      //event.stopImmediatePropagation();
       if (event.keyCode === 9) {
-        trapFocusInModal(event, parent);
+        trapFocusInModal(event, parentElement);
         console.log('où est le focus', document.activeElement);
       } else if (event.keyCode !== 9) {
         event.preventDefault();
@@ -156,13 +136,7 @@ const Modal = (props) => {
     });
   };
 
-  // console.log("qu'ai je dans e", e.target);
-  // const href = decodeURI(e.currentTarget.href);
-  // const anchor = href.split('#')[1];
-
   const myParentConditions = () => {
-    //console.log('les daaaaaata,', dataHref);
-    //if (/^#/.test(dataHref)) {
     if (dataHref.includes('#')) {
       console.log('les daaaaaata,', dataHref);
       const href = decodeURI(dataHref);
@@ -184,17 +158,28 @@ const Modal = (props) => {
         .then((data) => {
           const func = eval(`(${ajaxData})`);
           console.log("J'ai reçu les data", data, func);
-
           setNewDataHref(<div>{func}</div>);
-          // faire quelque chose avec les données reçues
         })
         .catch((error) => {
           console.error('Il y a eu un problème avec la requête fetch:', error);
           setNewDataHref(<div>"fetch return error"</div>);
         });
     }
+  };
 
-    //   const myParent = document.querySelector();
+  //OPTIONS
+  const handleBackDropClick = () => {
+    backDropClickAndClose ? handleModalClose() : null;
+  };
+  //OPTIONS
+  const closeAllModals = () => {
+    const modals = document.querySelectorAll('.tUv78');
+    //console.log('toutes les modals', modals);
+    modals.forEach((modal) => {
+      if (typeof modal.handleModalClose === 'function') {
+        modal.handleModalClose();
+      }
+    });
   };
 
   // Voici la modal
@@ -245,6 +230,7 @@ const Modal = (props) => {
             className="tUv39-modalclose-button-default"
             aria-label="close modal button"
             tabIndex={3}
+            style={{ customButtonColor }}
           >
             <img src={CloseIcon} width={'20px'} />
           </button>
@@ -252,7 +238,6 @@ const Modal = (props) => {
       </div>
     </div>
   ) : null;
-  //}
 };
 
 export default Modal;
