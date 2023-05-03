@@ -25,3 +25,14 @@ export function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
+
+export const setDatePickerLimit = (limit) => {
+  const today = new Date();
+  const maxAgeDate = new Date(
+    today.getFullYear() - limit,
+    today.getMonth(),
+    today.getDate()
+  );
+  const maxDate = maxAgeDate.toISOString().slice(0, 10);
+  return maxDate;
+};

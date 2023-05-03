@@ -7,6 +7,7 @@ import {
   initialValuesForm,
 } from './EmployeeFormData';
 import Modal from '../Modal/Modal';
+import { setDatePickerLimit } from '../../utils/functions';
 
 // OK - TODO=  problème affichage pour les dates
 // qu'est ce qu'on fait onsubmit le form?
@@ -35,23 +36,12 @@ const EmployeeForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState(initialValuesForm);
   const [errors, setErrors] = useState({});
-
-  const today = new Date(); // récupère la date d'aujourd'hui
-  const maxAgeDate = new Date(
-    today.getFullYear() - 18,
-    today.getMonth(),
-    today.getDate()
-  ); // calcule la date correspondant à 18 ans moins un jour avant aujourd'hui
-  const maxDate = maxAgeDate.toISOString().slice(0, 10); // convertit la date au format ISO 8601 (YYYY-MM-DD)
-  const minAgeDate = new Date(
-    today.getFullYear() - 100,
-    today.getMonth(),
-    today.getDate()
-  ); // calcule la date correspondant à 100 ans moins un jour avant aujourd'hui
-  const minDate = minAgeDate.toISOString().slice(0, 10); // convertit la date au format ISO 8601 (YYYY-MM-DD)
+  const [clear, setClear] = useState(false);
 
   const handleChange = (e) => {
+    setClear(false);
     // récupère name et valeur de l'input de l'évènement écouté
+    //console.log('*********dans handle change 2', e.target);
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -61,6 +51,7 @@ const EmployeeForm = () => {
       },
     });
     // contrôle du champ avec validate
+    //console.log('*********dans handle change', { [name]: value });
     validate({ [name]: value });
   };
 
@@ -105,6 +96,8 @@ const EmployeeForm = () => {
       const zipPattern = /[0-9]{5}/;
       if (zipPattern.test(fieldValue.zipCodeAddress) == false) {
         watchingError.zipCodeAddress = true;
+      } else if (fieldValue?.zipCodeAddress === '00000') {
+        watchingError.zipCodeAddress = true;
       } else if (fieldValue?.zipCodeAddress.length > 5) {
         watchingError.zipCodeAddress = true;
       } else {
@@ -112,16 +105,21 @@ const EmployeeForm = () => {
       }
     }
     if ('department' in fieldValue) {
+      //console.log('DEPARTEMENT', fieldValue.department);
       watchingError.department = fieldValue.department ? false : true;
     }
     setErrors({ ...watchingError });
-    console.log('fin fonction validate error= ', errors);
+    //console.log('fin fonction validate error= ', errors);
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setClear(false);
 
     const formData = new FormData(event.target);
-    console.log('form data', formData);
+    //console.log('form data', formData);
+    //console.log('form data 2', formData);
+
     // avant cette étape, vérifier les datas pour qu'il n'y ait pas de champs vide
     const newEmployee = {
       id: Date.now(),
@@ -137,7 +135,7 @@ const EmployeeForm = () => {
     };
     let isvalid = 0;
     for (const value of formData.values()) {
-      console.log(value);
+      //console.log(value);
       value == '' || formValues === null
         ? console.log(isvalid)
         : console.log(isvalid++);
@@ -147,16 +145,32 @@ const EmployeeForm = () => {
       const employees = JSON.parse(localStorage.getItem('employees')) || [];
       employees.push(newEmployee);
       localStorage.setItem('employees', JSON.stringify(employees));
-      const body = document.getElementsByTagName('body');
-      body[0].style.backgroundColor = 'pink';
+      //const body = document.getElementsByTagName('body');
+      //body[0].style.backgroundColor = 'pink';
       setShowModal(true);
+      //console.log('formvalue avant', formValues);
       setFormValues(initialValuesForm);
-    } else {
-      console.log('il y a in problem à la soumission');
-      console.log('voici les erreurs', errors);
-      const body = document.getElementsByTagName('body');
-      body[0].style.backgroundColor = 'green';
+      //const form = document.querySelector('#createEmployeeForm');
+      // console.log('$$$$$$$ est ce bien form', form);
+      // form.reset();
+      formData.delete('stateAddress');
+      formData.delete('department');
+      // var selectFields = form.querySelectorAll('.MuiSelect-select');
+      // console.log('le selecfields', selectFields);
+      // for (var i = 0; i < selectFields.length; i++) {
+      //   selectFields[i].innerHTML = '';
+      // }
+      setClear(true);
+
+      //console.log('initial value', initialValuesForm);
+      //console.log('forma value après', formValues);
     }
+    //else {
+    //console.log('il y a in problem à la soumission');
+    //console.error('voici les erreurs', errors);
+    // const body = document.getElementsByTagName('body');
+    // body[0].style.backgroundColor = 'green';
+    //}
   };
 
   return (
@@ -167,7 +181,7 @@ const EmployeeForm = () => {
         title="Employee creation done"
         backDropClickAndClose
         fadeIn
-        //          animationDuration="5"
+        animationDuration="2.5"
         fadeOut
       >
         {
@@ -253,8 +267,8 @@ const EmployeeForm = () => {
                     '& .MuiFormLabel-root': { backgroundColor: 'white' },
                   }}
                   inputProps={{
-                    min: `${minDate}`,
-                    max: `${maxDate}`,
+                    min: `${setDatePickerLimit(100)}`,
+                    max: `${setDatePickerLimit(18)}`,
                   }}
                   value={formValues.birthDate.value}
                   onChange={handleChange}
@@ -337,9 +351,9 @@ const EmployeeForm = () => {
                         name="stateAddress"
                         title="State"
                         options={statesArray}
+                        clear={clear}
                         required
                         value={formValues.stateAddress.value}
-                        onChange={handleChange}
                         error={errors.stateAddress}
                         helpertext={
                           errors.stateAddress &&
@@ -371,14 +385,14 @@ const EmployeeForm = () => {
                 </Box>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ textAlign: 'left' }}>
                 <EmployeeFormSelect
                   name="department"
                   title="Department"
                   options={departmentArray}
                   required
+                  clear={clear}
                   value={formValues.department.value}
-                  onChange={handleChange}
                   error={errors.department}
                   helpertext={
                     errors.department && formValues.department.errorMessage

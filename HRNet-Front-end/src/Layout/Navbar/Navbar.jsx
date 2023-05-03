@@ -27,7 +27,13 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'flex', sm: 'none' },
+              justifyContent: { xs: 'flex-end' },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"

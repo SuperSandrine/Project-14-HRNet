@@ -28,7 +28,7 @@ export const EmployeeTablePagination = (props) => {
               margin: { xs: '0' },
               '&> .css-194a1fa-MuiSelect-select-MuiInputBase-input ': {
                 backgroundColor: '#1976d2',
-                borderRadius: '50%',
+                borderRadius: '5px',
                 color: 'white',
                 padding: 0,
                 paddingLeft: '3px',

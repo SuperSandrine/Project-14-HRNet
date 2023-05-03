@@ -56,6 +56,7 @@ const Home = () => {
         //fadeOut
         title="test"
         customButtonColor="orange"
+        backDropClickAndClose
       >
         {'Voici un test'}
       </Modal>

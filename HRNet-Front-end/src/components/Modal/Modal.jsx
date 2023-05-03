@@ -27,24 +27,32 @@ const Modal = (props) => {
     '#root, #formContainer, header, main, footer'
   );
 
+  const setParams = () => {
+    if (closeAllModalsBefore) {
+      closeAllModals();
+    }
+    if (dataHref) {
+      myParentConditions();
+    }
+    if (fadeIn && animationDuration) {
+      modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
+      modalRef.current.style.setProperty(
+        'animation-duration',
+        `${animationDuration}s`
+      );
+    } else if (fadeIn && !animationDuration) {
+      modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
+      modalRef.current.style.setProperty('animation-duration', `2s`);
+    }
+    if (customButtonColor) {
+      const modal = document.querySelector('#modal');
+      modal.style.setProperty('--basicBlue', customButtonColor);
+    }
+  };
+
   useEffect(() => {
     if (showModal) {
-      if (closeAllModalsBefore) {
-        closeAllModals();
-      }
-      if (dataHref) {
-        myParentConditions();
-      }
-      if (fadeIn && animationDuration) {
-        modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
-        modalRef.current.style.setProperty(
-          'animation-duration',
-          `${animationDuration}s`
-        );
-      } else if (fadeIn && !animationDuration) {
-        modalRef.current.classList.add('tUv39-modal-blocker-div-fadeIn');
-        modalRef.current.style.setProperty('animation-duration', `2s`);
-      }
+      setParams();
       document.body.style.overflow = 'hidden';
       notFocusable.forEach((element) => {
         element.setAttribute('aria-hidden', true);
@@ -56,10 +64,6 @@ const Modal = (props) => {
         'keydown',
         handleKeyboardNavigation(event, modalRef.current)
       );
-      if (customButtonColor) {
-        const modal = document.querySelector('#modal');
-        modal.style.setProperty('--my-color', customButtonColor);
-      }
     }
   }, [showModal]);
   //WARN au survol, qual es?
