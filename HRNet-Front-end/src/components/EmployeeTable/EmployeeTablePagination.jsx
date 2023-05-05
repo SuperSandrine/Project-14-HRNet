@@ -10,7 +10,7 @@ export const EmployeeTablePagination = (props) => {
     onRowsPerPageChangeFcn,
     labelDisplayedRows,
   } = props;
-
+  console.log('PAGINATION Rows', rows);
   return (
     <>
       <TablePagination

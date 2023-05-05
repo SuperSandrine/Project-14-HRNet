@@ -1,10 +1,8 @@
 :root {
   --basicBlue: #1976d2;
 }
-#modal {
-  --my-color: 0;
-}
-@-moz-keyframes tUv39-modal-three-quarters-loader {
+
+@-moz-keyframes tUv39-modal-spinner {
   0% {
     -moz-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -14,7 +12,7 @@
     transform: rotate(360deg);
   }
 }
-@-webkit-keyframes tUv39-modal-three-quarters-loader {
+@-webkit-keyframes tUv39-modal-spinner {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -24,7 +22,7 @@
     transform: rotate(360deg);
   }
 }
-@keyframes tUv39-modal-three-quarters-loader {
+@keyframes tUv39-modal-spinner {
   0% {
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
@@ -39,10 +37,10 @@
   }
 }
 /* :not(:required) hides this rule from IE9 and below */
-.tUv39-modal-three-quarters-loader:not(:required) {
-  -moz-animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
-  -webkit-animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
-  animation: tUv39-modal-three-quarters-loader 1250ms infinite linear;
+.tUv39-modal-spinner:not(:required) {
+  -moz-animation: tUv39-modal-spinner 1250ms infinite linear;
+  -webkit-animation: tUv39-modal-spinner 1250ms infinite linear;
+  animation: tUv39-modal-spinner 1250ms infinite linear;
   border: 8px solid var(--basicBlue);
   border-right-color: transparent;
   border-radius: 16px;
@@ -55,7 +53,7 @@
   height: 32px;
 }
 
-.tUv39-modal-spinner {
+.tUv39-modal-spinner-container {
   padding: 10px;
   display: flex;
   justify-content: center;

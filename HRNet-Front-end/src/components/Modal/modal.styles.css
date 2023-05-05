@@ -15,12 +15,12 @@
   overflow: auto;
   z-index: 2;
 }
-.tUv39-modal-blocker-div-fadeIn {
+.tUv39-modal-fadeIn {
   animation-name: fadeIn;
   /* animation-duration: 4s; */
 }
 
-.tUv39-modal-blocker-div-fadeOut {
+.tUv39-modal-fadeOut {
   animation-name: fadeOut;
   /* animation-duration: 4s; */
 }

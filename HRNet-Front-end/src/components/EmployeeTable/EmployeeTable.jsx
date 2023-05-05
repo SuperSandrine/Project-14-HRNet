@@ -111,7 +111,7 @@ const EmployeeTable = (props) => {
       // There is no layout jump to handle on the first page.
       setPaddingHeight(0);
     },
-    [order, orderBy]
+    [order, orderBy, filtered, rows]
   );
 
   const requestSearch = (searchedVal) => {

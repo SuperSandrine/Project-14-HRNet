@@ -6,7 +6,7 @@ import Modal from '../../components/Modal/Modal';
 const Home = () => {
   const [montre, setMontre] = useState(false);
   const [montre2, setMontre2] = useState(false);
-
+  const [montre3, setMontre3] = useState(false);
   const [dataToGive, setDataToGive] = useState(null);
 
   return (
@@ -52,22 +52,31 @@ const Home = () => {
       <Modal
         showModal={montre}
         onClose={() => setMontre(false)}
-        //fadeIn
+        fadeIn
+        animationDuration="10"
         //fadeOut
         title="test"
-        customButtonColor="orange"
         backDropClickAndClose
+        //closeAllModalsBefore
+        //dataHref={dataToGive}
+        customButtonColor="pink"
       >
-        {'Voici un test'}
+        <button onClick={() => setMontre3(true)}>test</button>
       </Modal>
+      <Modal
+        //closeAllModalsBefore
+        showModal={montre3}
+        onClose={() => setMontre3(false)}
+        //    title="ça marche"
+      />
       <Modal
         showModal={montre2}
         onClose={() => setMontre2(false)}
         title="test2"
         dataHref={dataToGive}
         closureButton={'je ferme'}
-        ajaxData="data.name"
-        //customButtonColor="violet"
+        //ajaxData="data.name"
+        customButtonColor="rgba(255, 99, 71, 0.2)"
       >
         {'voici le lien sur lequel vous avez cliqué'}
       </Modal>
