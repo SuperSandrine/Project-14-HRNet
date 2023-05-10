@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './modal.styles.css';
 import CloseIcon from './closeIcon.svg';
-import SpinnerModal from '../../components/Modal/SpinnerModal';
+import SpinnerModal from './SpinnerModal';
 import PropTypes from 'prop-types';
 
 /**
@@ -194,6 +194,24 @@ const Modal = (props) => {
           // eslint-disable-next-line no-unused-vars
           .then((data) => {
             const func = eval(`(${ajaxData})`);
+            //const parsedData = JSON.parse(data);
+            //const func = new Function(`return ${ajaxData}`)();
+            //const newDataHref = <div>{func()}</div>;
+            //console.log('newdata', newDataHref);
+            //setNewDataHref(newDataHref);
+            // console.log('data', data);
+            // console.log('ajaxData', ajaxData);
+            // console.log('type ajaxData', typeof ajaxData);
+            // const parsage = JSON.parse(ajaxData);
+            // console.log('parsage', parsage);
+
+            // //const propArray = ajaxData.split('.');
+            // //console.log('propArray', propArray);
+            // //console.log("et si j'utilise array", data.propArray[1]);
+
+            // console.log('eval', func);
+            // const demand = data.id;
+            // console.log('demand', demand);
             setNewDataHref(<div>{func}</div>);
           })
           .catch((error) => {
