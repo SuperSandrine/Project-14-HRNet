@@ -6,8 +6,9 @@ import {
   statesArray,
   initialValuesForm,
 } from './EmployeeFormData';
-import Modal from '../Modal/Modal';
+//import Modal from '../Modal/Modal';
 import { setDatePickerLimit } from '../../utils/functions';
+import { Modal } from 'react-modal-tuv39';
 
 // OK - TODO=  problème affichage pour les dates
 // qu'est ce qu'on fait onsubmit le form?
@@ -172,7 +173,6 @@ const EmployeeForm = () => {
     // body[0].style.backgroundColor = 'green';
     //}
   };
-
   return (
     <>
       <Modal

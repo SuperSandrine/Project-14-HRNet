@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import RootLayout from '../../Layout/RootLayout';
 import { Button } from '@mui/material';
-import Modal from '../../components/Modal/Modal';
+//import Modal from '../../components/Modal/Modal';
+import { Modal } from 'react-modal-tuv39';
 
 const Home = () => {
   const [montre, setMontre] = useState(false);
@@ -53,18 +54,18 @@ const Home = () => {
         showModal={montre}
         onClose={() => setMontre(false)}
         fadeIn
-        animationDuration="10"
-        //fadeOut
+        //animationDuration="10"
+        fadeOut
         title="test"
         backDropClickAndClose
         //closeAllModalsBefore
         //dataHref={dataToGive}
-        customButtonColor="pink"
+        customButtonColor="blue"
       >
         <button onClick={() => setMontre3(true)}>test</button>
       </Modal>
       <Modal
-        //closeAllModalsBefore
+        closeAllModalsBefore
         showModal={montre3}
         onClose={() => setMontre3(false)}
         //    title="ça marche"

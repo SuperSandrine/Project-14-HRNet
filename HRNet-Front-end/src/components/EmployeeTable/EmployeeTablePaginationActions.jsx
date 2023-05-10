@@ -68,7 +68,7 @@ export const TablePaginationActions = (props) => {
       <Pagination
         count={numPages}
         onClick={handlePageClick}
-        //boundaryCount
+        page={page + 1}
         color="primary"
         hideNextButton
         hidePrevButton

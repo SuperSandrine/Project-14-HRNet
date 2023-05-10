@@ -66,6 +66,7 @@ const EmployeeTable = (props) => {
 
   const handleChangePage = useCallback(
     (event, newPage) => {
+      console.log('event et newPage', event, 'et', newPage);
       setPage(newPage);
 
       const sortedRows = stableSort(
