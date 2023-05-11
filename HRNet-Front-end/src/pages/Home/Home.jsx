@@ -68,14 +68,14 @@ const Home = () => {
         closeAllModalsBefore
         showModal={montre3}
         onClose={() => setMontre3(false)}
-        //    title="ça marche"
+        //title="ça marche"
       />
       <Modal
         showModal={montre2}
         onClose={() => setMontre2(false)}
         title="test2"
         dataHref={dataToGive}
-        closureButton={'je ferme'}
+        closureButton="je ferme"
         //ajaxData="data.name"
         customButtonColor="rgba(255, 99, 71, 0.2)"
       >

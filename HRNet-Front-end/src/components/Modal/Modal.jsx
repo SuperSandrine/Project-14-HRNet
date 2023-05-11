@@ -63,8 +63,8 @@ const Modal = (props) => {
       handleParentConditions();
     }
     if (fadeIn && animationDuration) {
-      modalRef.current.classList.add('tUv39-modal-fadeIn');
-      modalRef.current.style.setProperty(
+      modalRef.current.parentElement.classList.add('tUv39-modal-fadeIn');
+      modalRef.current.parentElement.style.setProperty(
         'animation-duration',
         `${animationDuration}s`
       );
