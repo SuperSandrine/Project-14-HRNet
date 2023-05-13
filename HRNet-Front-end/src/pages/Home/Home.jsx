@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import RootLayout from '../../Layout/RootLayout';
 import { Button } from '@mui/material';
-//import { Modal } from 'react-modal-tuv39';
-import Modal from '../../components/components/Modal';
+import { Modal } from 'react-modal-tuv39';
+//import Modal from '../../components/components/Modal';
 
 const Home = () => {
   const [montre, setMontre] = useState(false);
@@ -79,6 +79,8 @@ const Home = () => {
         fadeOut
         title="test d'une modal nested"
         backDropClickAndClose
+        closureButton="close if clicked"
+        customButtonColor="pink"
       >
         <button onClick={() => setMontre3(true)}>ouvre une autre modal</button>
       </Modal>
@@ -86,6 +88,8 @@ const Home = () => {
         closeAllModalsBefore
         showModal={montre3}
         onClose={() => setMontre3(false)}
+        closureButton="je ferme"
+        customButtonColor="violet"
       />
       <Modal
         showModal={montre2}

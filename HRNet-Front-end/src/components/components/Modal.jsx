@@ -80,10 +80,11 @@ const Modal = (props) => {
       );
     }
     if (customButtonColor) {
-      const modal = document.querySelector('#modal');
-      //console.log('modal', modal);
-      //console.log('tuv39', --tUv39Blue);
-      modal.style.setProperty('--tUv39Blue', customButtonColor);
+      const modal = document.querySelectorAll('.tUv78');
+      modal[modal.length - 1].style.setProperty(
+        '--tUv39Blue',
+        customButtonColor
+      );
     }
   };
 
@@ -243,7 +244,9 @@ const Modal = (props) => {
   const closeAllModals = () => {
     const modals = document.querySelectorAll('.tUv78');
     for (let i = 0; i < modals.length - 1; i++) {
-      const closeButton = modals[i].querySelector('button#dialogButton');
+      const closeButton = modals[i].querySelector(
+        'button#dialogCloseButton, button#dialogCloseDefaultButton'
+      );
       closeButton.click();
     }
   };
