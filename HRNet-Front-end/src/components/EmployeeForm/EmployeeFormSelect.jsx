@@ -13,7 +13,7 @@ const EmployeeFormSelect = (props) => {
   const [alertText, setAlertText] = useState('');
 
   const { name, title, options, required, helpertext, error, clear } = props;
-  console.log('toutes les props de employee formselect', props);
+  //console.log('toutes les props de employee formselect', props);
   useEffect(() => {
     if (error) {
       console.log('LERREUR EST PRESENTE');
@@ -31,22 +31,12 @@ const EmployeeFormSelect = (props) => {
     }
   }, [error, clear]);
 
-  // Comme je ne peux pas supprimer la valeur une fois choisi, pas besoin de validate lors du handleCHange
-  // const validateSelect = (value) => {
-  //   if (!value || value == null || value == '') {
-  //     setErrorTest(true);
-  //     return;
-  //   }
-  //   setErrorTest(false);
-  //   return null;
-  // };
-
   const handleChangeSelect = (event) => {
-    console.log('la nouvelle valeur sera:', event.target.value);
+    //console.log('la nouvelle valeur sera:', event.target.value);
     setNewValue(event.target.value);
     setNewError(false);
   };
-  console.log('******** new value : ', newValue);
+  //console.log('******** new value : ', newValue);
 
   return (
     <FormControl required={required} fullWidth error={newError}>
@@ -58,8 +48,6 @@ const EmployeeFormSelect = (props) => {
         label={title}
         value={newValue}
         onChange={handleChangeSelect}
-        //error={errorTest}
-        //helperText={errorTest}
         MenuProps={{
           anchorOrigin: {
             vertical: 'bottom',

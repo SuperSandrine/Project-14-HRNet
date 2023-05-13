@@ -7,13 +7,14 @@ const employeeSlice = createSlice({
   initialState: initialEmployeeList,
   reducers: {
     addEmployee: (state, action) => {
+      console.log('action', action);
       //{type: "employee/addEmployee", payload:"nouvel employee"}
       const newEmployee = {
+        id: action.payload.id,
         birthDate: action.payload.birthDate,
         cityAddress: action.payload.cityAddress,
         department: action.payload.department,
         firstName: action.payload.firstName,
-        id: Date.now(),
         lastName: action.payload.lastName,
         startDate: action.payload.startDate,
         stateAddress: action.payload.stateAddress,
@@ -31,3 +32,6 @@ export const store = configureStore({
     employee: employeeSlice.reducer,
   },
 });
+
+//actions creator
+export const { addEmployee } = employeeSlice.actions;

@@ -22,7 +22,6 @@ const DEFAULT_ORDER_BY = 'firstName';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 //const EmployeeTable = (props) => { // avec local storage
-
 const EmployeeTable = () => {
   const rows = useSelector((state) => state.employee);
   const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
@@ -186,7 +185,6 @@ const EmployeeTable = () => {
                   >
                     <TableCell component="th" scope="row">
                       {row.firstName}
-                      {/* TODO= rajouter une condition, genre on concatène l'id s'il n'ya pas de prénom */}
                     </TableCell>
                     {/* j'enlève le premier index puisqu'il est traité avant avec la méthode slice */}
                     {columnTitle.slice(1).map((column) => (

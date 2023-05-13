@@ -100,7 +100,7 @@
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes tUv39fadeIn {
+@keyframes tUv39FadeIn {
   from {
     opacity: 0;
   }
@@ -109,7 +109,7 @@
   }
 }
 
-@keyframes tUv39fadeOut {
+@keyframes tUv39FadeOut {
   from {
     opacity: 1;
   }

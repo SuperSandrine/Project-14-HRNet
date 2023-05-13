@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import RootLayout from '../../Layout/RootLayout';
 import { Button } from '@mui/material';
-//import Modal from '../../components/Modal/Modal';
-import { Modal } from 'react-modal-tuv39';
-//import Modal from '../../components/components/Modal';
+//import { Modal } from 'react-modal-tuv39';
+import Modal from '../../components/components/Modal';
 
 const Home = () => {
   const [montre, setMontre] = useState(false);

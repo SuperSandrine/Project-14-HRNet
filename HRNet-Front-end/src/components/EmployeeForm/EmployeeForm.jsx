@@ -8,12 +8,15 @@ import {
 } from './EmployeeFormData';
 import { setDatePickerLimit } from '../../utils/functions';
 import { Modal } from 'react-modal-tuv39';
+import { useDispatch } from 'react-redux';
+import { addEmployee } from '../../redux/redux';
 
 const EmployeeForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState(initialValuesForm);
   const [errors, setErrors] = useState({});
   const [clear, setClear] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setClear(false);
@@ -119,11 +122,12 @@ const EmployeeForm = () => {
     }
     validate(newEmployee);
     if (isvalid === 9) {
-      const employees = JSON.parse(localStorage.getItem('employees')) || [];
-      employees.push(newEmployee);
-      localStorage.setItem('employees', JSON.stringify(employees));
-      //const body = document.getElementsByTagName('body');
-      //body[0].style.backgroundColor = 'pink';
+      //gestion employee avec local storage
+      //const employees = JSON.parse(localStorage.getItem('employees')) || [];
+      //employees.push(newEmployee);
+      //localStorage.setItem('employees', JSON.stringify(employees));
+      //------------------
+      dispatch(addEmployee(newEmployee));
       setShowModal(true);
       //console.log('formvalue avant', formValues);
       setFormValues(initialValuesForm);

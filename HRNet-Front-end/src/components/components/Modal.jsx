@@ -45,7 +45,7 @@ const Modal = (props) => {
   } = props;
 
   const notFocusable = document.querySelectorAll(
-    '#root, #formContainer, header, main, footer'
+    '#root, #formContainer, header, main, footer, :not(#modal)'
   );
 
   useEffect(() => {
@@ -64,6 +64,9 @@ const Modal = (props) => {
       handleParentConditions();
     }
     if (fadeIn && animationDuration) {
+      console.log('fadein', modalRef.current);
+      console.log('fadein2', modalRef.current.parentElement);
+
       modalRef.current.parentElement.classList.add('tUv39-modal-fadeIn');
       modalRef.current.parentElement.style.setProperty(
         'animation-duration',
@@ -134,10 +137,15 @@ const Modal = (props) => {
     event.preventDefault();
     event.stopPropagation();
     const tabbableElementsSelectors =
-      '#dialogTitle, #dialogDesc, #dialogButton';
+      '#dialogTitle, #dialogDesc, #dialogCloseButton, #dialogCloseDefaultButton';
+    console.log('les tabbale', tabbableElementsSelectors);
+    console.log('les tabbale : parent', parentElement);
+
     const allTabbableElements = parentElement.querySelectorAll(
       tabbableElementsSelectors
     );
+    console.log('les tabbale', allTabbableElements);
+
     const trapFocusInModal = (event, parentElement) => {
       let index = Array.from(allTabbableElements).findIndex(
         (i) => i === parentElement.querySelector(':focus')
@@ -163,11 +171,11 @@ const Modal = (props) => {
         //console.log('où est le focus', document.activeElement);
       } else if (event.keyCode !== 9) {
         event.preventDefault();
-        //event.stopImmediatePropagation();
         if (event.keyCode === 27) {
           handleModalClose();
         } else if (
-          document.activeElement.id === 'dialogCloseButton' &&
+          (document.activeElement.id === 'dialogCloseButton' ||
+            document.activeElement.id === 'dialogCloseDefaultButton') &&
           event.keyCode === 13
         ) {
           handleModalClose();
@@ -281,13 +289,14 @@ const Modal = (props) => {
             className="tUv39-modalclose-button"
             aria-label="close modal button"
             tabIndex={3}
+            style={{ customButtonColor }}
           >
             {closureButton}
           </button>
         ) : (
           <button
             onClick={handleModalClose}
-            id="dialogButton"
+            id="dialogCloseDefaultButton"
             className="tUv39-modalclose-button-default"
             aria-label="close modal button"
             tabIndex={3}
