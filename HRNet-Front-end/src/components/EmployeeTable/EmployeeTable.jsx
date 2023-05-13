@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Table,
   TableBody,
@@ -20,18 +21,23 @@ const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'firstName';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
-const EmployeeTable = (props) => {
+//const EmployeeTable = (props) => { // avec local storage
+
+const EmployeeTable = () => {
+  const rows = useSelector((state) => state.employee);
   const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY); // by default: firstname
   const [page, setPage] = useState(0);
   const [visibleRows, setVisibleRows] = useState(null);
-  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE); // un chiffre qui indique le nb de rows/page
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE); // un number that tell the nb of rows/page
   const [paddingHeight, setPaddingHeight] = useState(0);
   const [searched, setSearched] = useState('');
   const [filtered, setFiltered] = useState({});
 
-  const { data } = props;
-  const rows = data;
+  // avec locale storage
+  //  const { data } = props;
+  //  const rows = data;
+  //  console.log(rows);
 
   useEffect(() => {
     let rowsOnMount = stableSort(
@@ -179,7 +185,7 @@ const EmployeeTable = (props) => {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.firstName + row.id}
+                      {row.firstName}
                       {/* TODO= rajouter une condition, genre on concatène l'id s'il n'ya pas de prénom */}
                     </TableCell>
                     {/* j'enlève le premier index puisqu'il est traité avant avec la méthode slice */}

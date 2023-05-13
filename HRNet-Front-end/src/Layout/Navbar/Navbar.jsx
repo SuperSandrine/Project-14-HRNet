@@ -24,7 +24,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -89,6 +89,7 @@ function ResponsiveAppBar() {
               flexGrow: 1,
               display: { xs: 'none', sm: 'flex' },
               justifyContent: 'flex-end',
+              paddingRight: '7vw',
             }}
           >
             <Button color="inherit" component={NavLink} to="/">

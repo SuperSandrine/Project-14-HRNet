@@ -6,5 +6,6 @@ export const FooterStyled = styled.footer`
 `;
 
 export const MainStyled = styled.main`
+  padding-top: 60px;
   text-align: center;
 `;

@@ -1,5 +1,5 @@
 :root {
-  --basicBlue: #1976d2;
+  --tUv39Blue: #1976d2;
 }
 
 @-moz-keyframes tUv39-modal-spinner {
@@ -41,7 +41,7 @@
   -moz-animation: tUv39-modal-spinner 1250ms infinite linear;
   -webkit-animation: tUv39-modal-spinner 1250ms infinite linear;
   animation: tUv39-modal-spinner 1250ms infinite linear;
-  border: 8px solid var(--basicBlue);
+  border: 8px solid var(--tUv39Blue);
   border-right-color: transparent;
   border-radius: 16px;
   box-sizing: border-box;

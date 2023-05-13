@@ -6,32 +6,8 @@ import {
   statesArray,
   initialValuesForm,
 } from './EmployeeFormData';
-//import Modal from '../Modal/Modal';
 import { setDatePickerLimit } from '../../utils/functions';
 import { Modal } from 'react-modal-tuv39';
-
-// OK - TODO=  problème affichage pour les dates
-// qu'est ce qu'on fait onsubmit le form?
-//    OK - TODO = on vide formulaire
-//    OK - TODO = on enregistre les datas
-//    OK - TODO = on vérifies que tous les champs obligatoires sont complétés
-// faire une fonctionnalité qui change uniquement les champs qui sont modifié pour éviter d'avoir 10 states différents comment je fais ça?
-// OK - TODO =  mettre la modale en place
-// OK - TODO =  au save,
-//    OK - enregistrer les infos
-//    OK - les envoyer à la page suivant qui va les afficher
-//    OK - afficher la modale
-// OK - TODO = modale:
-//    OK - modale de confirmation
-//    OK - quand on appuie sur croix ferme la modale
-// OK - TODO = selectbox: une avec les etats
-// OK - TODO = selectbox: avec les fonctions
-//
-//bug:
-// OK - TODO = placement de la select par rapport à l'input
-// OK - TODO = affichage date et placeholder
-//fcn:
-// TODO = mettre en place des validations de formulaires ou se renseigner sur les bonne praitques
 
 const EmployeeForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -184,11 +160,8 @@ const EmployeeForm = () => {
         animationDuration="2.5"
         fadeOut
       >
-        {
-          'Your employee has been created ! ' // 'Also a 40 words paragraph : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac ornare tortor. Integer elementum lacinia dolor nec ullamcorper. Donec placerat condimentum euismod. Pellentesque ac tempus nisi. Mauris eget ultrices leo. Morbi nulla lacus, vulputate sit amet tristique sed, maximus in. '
-        }
+        {'Your employee has been created ! '}
       </Modal>
-
       <Box
         id="formContainer"
         sx={{
