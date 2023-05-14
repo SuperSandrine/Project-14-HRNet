@@ -6,7 +6,6 @@ import {
   TableSortLabel,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-
 import { columnTitle } from './EmployeeTableData';
 
 export const EnhancedTableHead = (props) => {
@@ -14,20 +13,12 @@ export const EnhancedTableHead = (props) => {
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
-  //console.log("qu'est ce que orderby", orderBy);
-  //console.log("qu'est ce que order", order);
 
   return (
     <TableHead>
       <TableRow>
         {columnTitle.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            padding="normal"
-            //padding={headCell.disablePadding ? 'none' : 'normal'}
-            //sortDirection={orderBy === headCell.id ? order : false}
-            //sortDirection="asc"
-          >
+          <TableCell key={headCell.id} padding="normal">
             <TableSortLabel
               active={orderBy === headCell.data}
               direction={orderBy === headCell.data ? order : 'asc'}
@@ -40,7 +31,6 @@ export const EnhancedTableHead = (props) => {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-              {/* box= button= titre et petite flèche */}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -48,11 +38,3 @@ export const EnhancedTableHead = (props) => {
     </TableHead>
   );
 };
-
-// EnhancedTableHead.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-//   onRequestSort: PropTypes.func.isRequired,
-//   onSelectAllClick: PropTypes.func.isRequired,
-//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//   orderBy: PropTypes.string.isRequired,
-// };

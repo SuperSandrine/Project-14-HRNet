@@ -1,5 +1,3 @@
-// mettre en place un redux
-
 import EmployeeForm from '../../../components/EmployeeForm/EmployeeForm';
 
 const EmployeeCreate = () => {

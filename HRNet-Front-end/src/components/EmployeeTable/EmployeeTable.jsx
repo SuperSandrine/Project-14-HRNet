@@ -1,3 +1,4 @@
+//lib
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -10,12 +11,15 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
+//img
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+//fcn
 import { getComparator, stableSort } from '../../utils/functions';
-import { columnTitle } from './EmployeeTableData';
 import { EnhancedTableHead } from './EnhancedTableHead';
 import { EmployeeTablePagination } from './EmployeeTablePagination';
+//data
+import { columnTitle } from './EmployeeTableData';
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'firstName';
@@ -32,11 +36,6 @@ const EmployeeTable = () => {
   const [paddingHeight, setPaddingHeight] = useState(0);
   const [searched, setSearched] = useState('');
   const [filtered, setFiltered] = useState({});
-
-  // avec locale storage
-  //  const { data } = props;
-  //  const rows = data;
-  //  console.log(rows);
 
   useEffect(() => {
     let rowsOnMount = stableSort(
@@ -71,9 +70,7 @@ const EmployeeTable = () => {
 
   const handleChangePage = useCallback(
     (event, newPage) => {
-      //console.log('event et newPage', event, 'et', newPage);
       setPage(newPage);
-
       const sortedRows = stableSort(
         !filtered[0] ? rows : filtered,
         //arrayPage,
@@ -190,7 +187,6 @@ const EmployeeTable = () => {
                     {columnTitle.slice(1).map((column) => (
                       <TableCell key={column.id + row.id}>
                         {row[column.data]}
-                        {/* TOUN = je ne suis pas sure du fonctionnement de cet appel */}
                       </TableCell>
                     ))}
                   </TableRow>

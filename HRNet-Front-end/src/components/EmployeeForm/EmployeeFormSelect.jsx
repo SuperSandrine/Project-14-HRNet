@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   FormControl,
   FormHelperText,
@@ -5,7 +6,6 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 
 const EmployeeFormSelect = (props) => {
   const [newValue, setNewValue] = useState('');
@@ -13,10 +13,8 @@ const EmployeeFormSelect = (props) => {
   const [alertText, setAlertText] = useState('');
 
   const { name, title, options, required, helpertext, error, clear } = props;
-  //console.log('toutes les props de employee formselect', props);
   useEffect(() => {
     if (error) {
-      //console.log('LERREUR EST PRESENTE');
       setNewError(true);
       setAlertText(helpertext);
     } else {
@@ -24,7 +22,6 @@ const EmployeeFormSelect = (props) => {
       setAlertText('');
     }
     if (clear) {
-      //console.log('JE NETOIE TOUT');
       setNewError(false);
       setAlertText('');
       setNewValue('');
@@ -32,11 +29,9 @@ const EmployeeFormSelect = (props) => {
   }, [error, clear]);
 
   const handleChangeSelect = (event) => {
-    //console.log('la nouvelle valeur sera:', event.target.value);
     setNewValue(event.target.value);
     setNewError(false);
   };
-  //console.log('******** new value : ', newValue);
 
   return (
     <FormControl required={required} fullWidth error={newError}>

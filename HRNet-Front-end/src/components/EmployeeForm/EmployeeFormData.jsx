@@ -1,5 +1,3 @@
-// OK = TOdO créer les tableaux pour les deux select:
-
 export const initialValuesForm = {
   firstName: {
     value: '',

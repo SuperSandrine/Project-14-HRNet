@@ -9,29 +9,19 @@ import {
 export const TablePaginationActions = (props) => {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-  //console.log('props de tablepaginationactions', props);
-
   const numPages = Math.ceil(count / rowsPerPage);
-  //console.log('nombre de page dans actions', numPages);
-
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
-
   const handleBackButtonClick = (event) => {
     onPageChange(event, page - 1);
   };
-
   const handlePageClick = (event) => {
-    //console.log('event', event);
-    //console.log('event 2', event.target.textContent);
     onPageChange(event, parseInt(event.target.textContent) - 1);
   };
-
   const handleNextButtonClick = (event) => {
     onPageChange(event, page + 1);
   };
-
   const handleLastPageButtonClick = (event) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
@@ -97,10 +87,3 @@ export const TablePaginationActions = (props) => {
     </Box>
   );
 };
-
-// TablePaginationActions.propTypes = {
-//   count: PropTypes.number.isRequired,
-//   onPageChange: PropTypes.func.isRequired,
-//   page: PropTypes.number.isRequired,
-//   rowsPerPage: PropTypes.number.isRequired,
-// };

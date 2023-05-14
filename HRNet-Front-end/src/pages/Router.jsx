@@ -6,7 +6,6 @@ import Employee from './Employee/Employee';
 import EmployeeList from './Employee/EmployeeList/EmployeeList';
 import EmployeeCreate from './Employee/EmployeeCreate/EmployeeCreate';
 
-// two way to code router:
 export const router = createHashRouter([
   {
     path: '/',
