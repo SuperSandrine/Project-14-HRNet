@@ -16,7 +16,7 @@ const EmployeeFormSelect = (props) => {
   //console.log('toutes les props de employee formselect', props);
   useEffect(() => {
     if (error) {
-      console.log('LERREUR EST PRESENTE');
+      //console.log('LERREUR EST PRESENTE');
       setNewError(true);
       setAlertText(helpertext);
     } else {
@@ -24,7 +24,7 @@ const EmployeeFormSelect = (props) => {
       setAlertText('');
     }
     if (clear) {
-      console.log('JE NETOIE TOUT');
+      //console.log('JE NETOIE TOUT');
       setNewError(false);
       setAlertText('');
       setNewValue('');

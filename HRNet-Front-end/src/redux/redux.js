@@ -7,7 +7,7 @@ const employeeSlice = createSlice({
   initialState: initialEmployeeList,
   reducers: {
     addEmployee: (state, action) => {
-      console.log('action', action);
+      //console.log('action', action);
       //{type: "employee/addEmployee", payload:"nouvel employee"}
       const newEmployee = {
         id: action.payload.id,

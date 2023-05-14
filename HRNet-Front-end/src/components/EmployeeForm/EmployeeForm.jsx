@@ -115,10 +115,7 @@ const EmployeeForm = () => {
     };
     let isvalid = 0;
     for (const value of formData.values()) {
-      //console.log(value);
-      value == '' || formValues === null
-        ? console.log(isvalid)
-        : console.log(isvalid++);
+      value == '' || formValues === null ? isvalid : isvalid++;
     }
     validate(newEmployee);
     if (isvalid === 9) {
