@@ -12,8 +12,6 @@ dist
 dist-ssr
 *.local
 
-#test environnement to be settled
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -24,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# en attendant de créer les tests:
+HRNet-Front-end/src/tests/*

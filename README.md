@@ -14,7 +14,7 @@
   <ol>
     <li><a href="# HRNet project for Wealth Health society">  HRNet project for Wealth Health society: scenario</a>
     <ul>
-      <li><a href="#Conversion">Conversion/a></li>
+      <li><a href="#Conversion">Conversion</a></li>
       <li><a href="#Plugin">Plugin</a></li>
       <li><a href="#And performance tests">And performance tests</a></li>
     </ul></li>
@@ -40,13 +40,13 @@
 Wealth Health is a huge financial society which use an internal Web application that manage employees files.
 This web application, called HRNet, currently use jQuery on the front-end ([HRNet jQuery version repository](https://github.com/OpenClassrooms-Student-Center/P12_Front-end)), which leads on numerous bugs.
 
-### Conversion
+#### Conversion
 **The main purpose of this project is to convert the HRNet jQuery project in React.**
-### Plugin
+#### Plugin
 Then, code the modal plugin in a react component as a library and import it in the HRNet project.
-In the [HRNet jQuery version repository](https://github.com/OpenClassrooms-Student-Center/P12_Front-end), there is 4 issues highlighted, I choose the modal issue to settle and code the plugin from the [modal Jquery code](https://github.com/kylefox/jquery-modal) to [modal React component code in npm](https://www.npmjs.com/package/react-modal-tuv39) or [code in github](https://github.com/SuperSandrine/Project-14-HRNet-plugin/blob/main/README.md)
+In the [HRNet jQuery version repository](https://github.com/OpenClassrooms-Student-Center/P12_Front-end), there is 4 issues highlighted, I choose the modal issue to settle and code the plugin from the [modal Jquery code](https://github.com/kylefox/jquery-modal) to [modal React component code in npm](https://www.npmjs.com/package/react-modal-tuv39). You can also find the code in its [github version](https://github.com/SuperSandrine/Project-14-HRNet-plugin/blob/main/README.md).
 
-### And performance tests
+#### And performance tests
 At last, audit both web apps, in the new and old versions, with lighthouse performance tests.
 
 Reports are available in the PROJECT-14-HRNet/Lighthouse reports/
