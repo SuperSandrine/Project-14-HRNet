@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# en attendant de créer les tests:
+HRNet-Front-end/src/tests/*
+
