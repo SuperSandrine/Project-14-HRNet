@@ -28,6 +28,7 @@ const DEFAULT_ROWS_PER_PAGE = 5;
 //const EmployeeTable = (props) => { // avec local storage
 const EmployeeTable = () => {
   const rows = useSelector((state) => state.employee);
+
   const [order, setOrder] = useState(DEFAULT_ORDER); // default: asc
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY); // by default: firstname
   const [page, setPage] = useState(0);
@@ -174,7 +175,7 @@ const EmployeeTable = () => {
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {visibleRows
+            {visibleRows?.length > 0
               ? visibleRows.map((row) => (
                   <TableRow
                     key={row.id}

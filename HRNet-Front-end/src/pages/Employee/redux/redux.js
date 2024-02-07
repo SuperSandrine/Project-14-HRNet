@@ -8,6 +8,8 @@ const employeeSlice = createSlice({
   reducers: {
     addEmployee: (state, action) => {
       //{voici action: type: "employee/addEmployee", payload:"nouvel employee"}
+      console.log('action', action);
+      console.log('state', state);
       const newEmployee = {
         id: action.payload.id,
         birthDate: action.payload.birthDate,
@@ -34,3 +36,5 @@ export const store = configureStore({
 
 //actions creator
 export const { addEmployee } = employeeSlice.actions;
+
+//persist store
