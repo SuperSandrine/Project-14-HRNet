@@ -102,14 +102,14 @@ function ResponsiveAppBar() {
             <Button color="inherit" component={NavLink} to="/">
               Home
             </Button>
-            <Button color="inherit" component={NavLink} to="/modales">
-              Modales
-            </Button>
             <Button color="inherit" component={NavLink} to="/employee/create">
               Create Employee
             </Button>
             <Button color="inherit" component={NavLink} to="/employee/list">
               Employee List
+            </Button>
+            <Button color="inherit" component={NavLink} to="/modales">
+              Modales
             </Button>
           </Box>
         </Toolbar>
