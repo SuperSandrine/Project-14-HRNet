@@ -40,6 +40,8 @@
 Wealth Health is a huge financial society which use an internal Web application that manage employees files.
 This web application, called HRNet, currently use jQuery on the front-end ([HRNet jQuery version repository](https://github.com/OpenClassrooms-Student-Center/P12_Front-end)), which leads on numerous bugs.
 
+[![HRNet Screen Shot][product-screenshot]](https://project-14-hr-net.vercel.app/#/employee/create)
+
 #### Conversion
 **The main purpose of this project is to convert the HRNet jQuery project in React.**
 #### Plugin
@@ -177,3 +179,4 @@ Enjoy !
 [NodeBadge]: https://img.shields.io/badge/Node-v%2014.21.3-forestgreen
 [NpmBadge]: https://img.shields.io/badge/Npm-v%206.14.18-firebrick
 
+[product-screenshot]: /img/screenShot-createEmployeeForm.png
