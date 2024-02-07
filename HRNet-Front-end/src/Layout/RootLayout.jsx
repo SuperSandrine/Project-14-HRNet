@@ -1,7 +1,7 @@
-import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
 import { Container } from '@mui/material';
 import { MainStyled } from './RootLayout.styled';
+import ResponsiveAppBar from './Navbar/Navbar';
 
 const RootLayout = ({ children }) => {
   return (
@@ -9,7 +9,7 @@ const RootLayout = ({ children }) => {
       maxWidth="lg"
       sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
     >
-      <Navbar />
+      <ResponsiveAppBar />
       <MainStyled>
         <h1>HRnet</h1>
         {children}

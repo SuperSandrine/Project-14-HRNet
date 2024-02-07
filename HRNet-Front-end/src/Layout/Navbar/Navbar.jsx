@@ -70,6 +70,11 @@ function ResponsiveAppBar() {
                 </Button>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
+                <Button color="inherit" component={NavLink} to="/modales">
+                  Modales
+                </Button>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
                 <Button
                   color="inherit"
                   component={NavLink}
@@ -96,6 +101,9 @@ function ResponsiveAppBar() {
           >
             <Button color="inherit" component={NavLink} to="/">
               Home
+            </Button>
+            <Button color="inherit" component={NavLink} to="/modales">
+              Modales
             </Button>
             <Button color="inherit" component={NavLink} to="/employee/create">
               Create Employee
